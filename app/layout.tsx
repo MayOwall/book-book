@@ -19,7 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={inter.className}>
-      <body>{children}</body>
+      <body className="flex justify-center bg-neutral-500">
+        <div className="w-full max-w-screen-sm min-h-screen bg-white p-4">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }
