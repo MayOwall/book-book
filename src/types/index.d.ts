@@ -14,7 +14,7 @@ interface BookSearchbar {
   handleBookitems: (bookitems: bookitems[]) => void;
 }
 
-interface bookitems {
+interface bookinfo {
   isbn: string;
   title: string;
   image: string;

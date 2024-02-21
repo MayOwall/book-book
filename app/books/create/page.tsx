@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { BookSearchbar } from "@/src/components";
-import type { bookitems } from "@/src/types";
+import type { bookinfo } from "@/src/types";
 import Link from "next/link";
 
 export default function CreateNewBook() {
-  const [bookitems, setBookitems] = useState<bookitems[]>([]);
+  const [bookitems, setBookitems] = useState<bookinfo[]>([]);
 
-  const onSearchbarSubmit = (bookitems: bookitems[]) => {
+  const onSearchbarSubmit = (bookitems: bookinfo[]) => {
     setBookitems(() => bookitems);
   };
 
