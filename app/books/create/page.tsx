@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { BookSearchbar } from "@/src/components";
+import { BookSearchbar, BookInfoCard } from "@/src/components";
 import type { bookinfo } from "@/src/types";
 import Link from "next/link";
 
@@ -20,7 +20,9 @@ export default function CreateNewBook() {
           <button className="shrink-0 border px-3">취소</button>
         </Link>
       </div>
-      {JSON.stringify(bookitems)}
+      {bookitems.map((item) => (
+        <BookInfoCard key={item.isbn} bookinfo={item} />
+      ))}
     </main>
   );
 }

@@ -21,3 +21,8 @@ interface bookinfo {
   author: string;
   publisher: string;
 }
+
+interface BookInfoCard {
+  bookinfo: bookinfo;
+  type?: "small" | "large";
+}
