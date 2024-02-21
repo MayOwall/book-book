@@ -14,10 +14,15 @@ interface BookSearchbar {
   handleBookitems: (bookitems: bookitems[]) => void;
 }
 
-interface bookitems {
+interface bookinfo {
   isbn: string;
   title: string;
   image: string;
   author: string;
   publisher: string;
+}
+
+interface BookInfoCard {
+  bookinfo: bookinfo;
+  type?: "small" | "large";
 }

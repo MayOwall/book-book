@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { BookSearchbar } from "@/src/components";
-import type { bookitems } from "@/src/types";
+import { BookSearchbar, BookInfoCard } from "@/src/components";
+import type { bookinfo } from "@/src/types";
 import Link from "next/link";
 
 export default function CreateNewBook() {
-  const [bookitems, setBookitems] = useState<bookitems[]>([]);
+  const [bookitems, setBookitems] = useState<bookinfo[]>([]);
 
-  const onSearchbarSubmit = (bookitems: bookitems[]) => {
+  const onSearchbarSubmit = (bookitems: bookinfo[]) => {
     setBookitems(() => bookitems);
   };
 
@@ -20,7 +20,9 @@ export default function CreateNewBook() {
           <button className="shrink-0 border px-3">취소</button>
         </Link>
       </div>
-      {JSON.stringify(bookitems)}
+      {bookitems.map((item) => (
+        <BookInfoCard key={item.isbn} bookinfo={item} />
+      ))}
     </main>
   );
 }
