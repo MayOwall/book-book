@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const naverClientId = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID!;
-const naverClientSecret = process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET!;
+const naverClientId = process.env.NAVER_CLIENT_ID!;
+const naverClientSecret = process.env.NAVER_CLIENT_SECRET!;
 const getHeaders = {
   "X-Naver-Client-Id": naverClientId,
   "X-Naver-Client-Secret": naverClientSecret,
