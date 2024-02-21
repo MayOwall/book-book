@@ -1,11 +1,23 @@
 import { ReactNode } from "react";
 
-export interface ReadingBookShelf {
+interface ReadingBookShelf {
   books?: ReactNode;
 }
 
-export interface LargeButton {
+interface LargeButton {
   children: ReactNode;
   type?: "fill" | "line";
   onClick?: () => any;
+}
+
+interface BookSearchbar {
+  handleBookitems: (bookitems: bookitems[]) => void;
+}
+
+interface bookitems {
+  isbn: string;
+  title: string;
+  image: string;
+  author: string;
+  publisher: string;
 }
