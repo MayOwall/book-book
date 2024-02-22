@@ -4,6 +4,7 @@ import BookSearchbar from "./BookSearchbar/BookSearchbar";
 import BookInfoCard from "./BookInfoCard/BookInfoCard";
 import Modal from "./Modal/Modal";
 import CraeteBookModalContent from "./Modal/Contents/CreateBookModalContent";
+import BookmitsByDate from "./BookmitsByDate/BookmitsByDate";
 
 export {
   ReadingBookShelf,
@@ -12,4 +13,5 @@ export {
   BookInfoCard,
   Modal,
   CraeteBookModalContent,
+  BookmitsByDate,
 };

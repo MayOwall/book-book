@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { getReadingbooks, getAllBookmits } from "@/src/api";
-import { ReadingBookShelf, LargeButton } from "@/src/components";
+import {
+  ReadingBookShelf,
+  LargeButton,
+  BookmitsByDate,
+} from "@/src/components";
+import type { BookmitsByDate as bookmitsByDate } from "@/src/types";
 
 export default function Home() {
   const [readingbooks, setReadingbooks] = useState([]);
@@ -36,8 +41,11 @@ export default function Home() {
           <LargeButton>새 책 등록하기</LargeButton>
         </Link>
       )}
-      <div>{selectedbookIsbn || "."}</div>
-      {JSON.stringify(bookmits)}
+      <div>선택 : {selectedbookIsbn || "X"}</div>
+      {!!bookmits &&
+        bookmits.map((bookmitsByDate: bookmitsByDate) => (
+          <BookmitsByDate key={bookmitsByDate.date} {...bookmitsByDate} />
+        ))}
     </main>
   );
 }

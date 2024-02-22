@@ -40,3 +40,24 @@ interface useModalState {
   createModal: (nextContent: ReactNode) => void;
   remoteModal: () => void;
 }
+
+interface bookmitInfo {
+  _id: string;
+  bookinfo: {
+    title: string;
+    isbn: string;
+  };
+  startPage: number;
+  endPage: number;
+}
+
+interface BookmitCard extends bookmitInfo {}
+
+interface BookmitsByDate {
+  date: string;
+  bookmits: bookmitInfo[];
+}
+
+interface BookmitList {
+  bookmits: BookmitsByDate[];
+}
