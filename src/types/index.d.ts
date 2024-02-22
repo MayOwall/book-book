@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 interface ReadingBookShelf {
-  books?: ReactNode;
+  handleSelectedBook: (bookinfo: bookinfo) => void;
 }
 
 interface LargeButton {
@@ -11,7 +11,7 @@ interface LargeButton {
 }
 
 interface BookSearchbar {
-  handleBookitems: (bookitems: bookitems[]) => void;
+  handleSubmit: (keyword: string) => void;
 }
 
 interface bookinfo {
@@ -25,4 +25,17 @@ interface bookinfo {
 interface BookInfoCard {
   bookinfo: bookinfo;
   type?: "small" | "large";
+  onClick?: () => void;
+}
+
+type bottomButtonStatus = "nonDisplay" | "more" | "nobooks" | "end";
+
+interface Modal {
+  children: ReactNode;
+}
+
+interface useModalState {
+  content: null | ReactNode;
+  createModal: (nextContent: ReactNode) => void;
+  remoteModal: () => void;
 }

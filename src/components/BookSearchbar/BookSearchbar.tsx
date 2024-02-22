@@ -1,25 +1,22 @@
 "use client";
 
-import { useState } from "react";
 import type { BookSearchbar } from "@/src/types";
+import { useState } from "react";
 
-export default function BookSearchbar({ handleBookitems }: BookSearchbar) {
+export default function BookSearchbar({ handleSubmit }: BookSearchbar) {
   const [keyword, setKeyword] = useState("");
-
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setKeyword(() => value);
   };
 
-  const onSearchbarSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = await fetch(`/api/searchbook?keyword=${keyword}`);
-    const { bookitems } = await data.json();
-    handleBookitems(bookitems);
+    handleSubmit(keyword);
   };
 
   return (
-    <form className="w-full" onSubmit={onSearchbarSubmit}>
+    <form className="w-full" onSubmit={onSubmit}>
       <input
         className="size-1 h-10 w-full rounded border px-2 outline-none"
         placeholder="검색할 책을 입력해주세요"

@@ -4,6 +4,7 @@ import type { BookInfoCard } from "@/src/types";
 export default function BookInfoCard({
   bookinfo,
   type = "small",
+  onClick,
 }: BookInfoCard) {
   const { title, image, author, publisher } = bookinfo;
 
@@ -29,7 +30,7 @@ export default function BookInfoCard({
   };
 
   return (
-    <div className={style.container[type]}>
+    <div className={style.container[type]} onClick={onClick}>
       <div className={style.image[type]}>
         <Image
           src={image}
