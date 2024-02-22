@@ -25,6 +25,17 @@ interface bookinfo {
 interface BookInfoCard {
   bookinfo: bookinfo;
   type?: "small" | "large";
+  onClick?: () => void;
 }
 
 type bottomButtonStatus = "nonDisplay" | "more" | "nobooks" | "end";
+
+interface Modal {
+  children: ReactNode;
+}
+
+interface useModalState {
+  content: null | ReactNode;
+  createModal: (nextContent: ReactNode) => void;
+  remoteModal: () => void;
+}
