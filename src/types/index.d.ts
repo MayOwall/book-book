@@ -11,7 +11,7 @@ interface LargeButton {
 }
 
 interface BookSearchbar {
-  handleBookitems: (bookitems: bookitems[]) => void;
+  handleSubmit: (keyword: string) => void;
 }
 
 interface bookinfo {
@@ -26,3 +26,5 @@ interface BookInfoCard {
   bookinfo: bookinfo;
   type?: "small" | "large";
 }
+
+type bottomButtonStatus = "nonDisplay" | "more" | "nobooks" | "end";
