@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 interface ReadingBookShelf {
-  books?: ReactNode;
+  handleSelectedBook: (bookinfo: bookinfo) => void;
 }
 
 interface LargeButton {
