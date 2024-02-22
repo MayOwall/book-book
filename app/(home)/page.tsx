@@ -8,10 +8,6 @@ import { bookinfo } from "@/src/types";
 export default function Home() {
   const [selectedbook, setSelectedbook] = useState<bookinfo | null>(null);
   const handleSelectedBook = (bookinfo: bookinfo) => {
-    if (bookinfo.isbn === selectedbook?.isbn) {
-      setSelectedbook(() => null);
-      return;
-    }
     setSelectedbook(() => bookinfo);
   };
   return (
