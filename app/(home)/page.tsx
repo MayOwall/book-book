@@ -46,7 +46,13 @@ export default function Home() {
           <LargeButton>새 책 등록하기</LargeButton>
         </Link>
       )}
-      <div>선택 : {JSON.stringify(selectedBook)}</div>
+      {selectedBook && (
+        <Link
+          href={`/bookmit/create?isbn=${selectedBook.isbn}&title=${selectedBook.title}`}
+        >
+          <LargeButton>새 북밋 생성</LargeButton>
+        </Link>
+      )}
       {!!bookmits &&
         bookmits.map((bookmitsByDate: bookmitsByDate) => (
           <BookmitsByDate key={bookmitsByDate.date} {...bookmitsByDate} />
