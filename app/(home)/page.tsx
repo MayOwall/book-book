@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { getReadingbooks, getAllBookmits } from "@/src/api";
+import {
+  getReadingbooks,
+  getAllBookmits,
+  getSelectedBookmits,
+} from "@/src/api";
 import {
   ReadingBookShelf,
   LargeButton,
@@ -12,7 +16,7 @@ import type { BookmitsByDate as bookmitsByDate, bookinfo } from "@/src/types";
 
 export default function Home() {
   const [readingbooks, setReadingbooks] = useState([]);
-  const [bookmits, setBookmits] = useState([]);
+  const [bookmits, setBookmits] = useState<bookmitsByDate[]>([]);
   const [selectedBook, setSelectedBook] = useState<bookinfo | null>(null);
 
   const handleSelectedBook = (bookinfo: bookinfo) => {
@@ -32,6 +36,16 @@ export default function Home() {
     const bookmits = getAllBookmits();
     setBookmits(() => bookmits);
   }, []);
+
+  useEffect(() => {
+    if (!selectedBook) {
+      const bookmits = getAllBookmits();
+      setBookmits(() => bookmits);
+      return;
+    }
+    const bookmits = getSelectedBookmits(selectedBook.isbn);
+    setBookmits(() => bookmits);
+  }, [selectedBook]);
 
   return (
     <main className="flex flex-col gap-1">
@@ -53,10 +67,15 @@ export default function Home() {
           <LargeButton>새 북밋 생성</LargeButton>
         </Link>
       )}
-      {!!bookmits &&
+      {!!bookmits.length &&
         bookmits.map((bookmitsByDate: bookmitsByDate) => (
           <BookmitsByDate key={bookmitsByDate.date} {...bookmitsByDate} />
         ))}
+      {!bookmits.length && (
+        <div className="m-2 text-center text-sm text-neutral-400">
+          작성한 북밋이 없어요
+        </div>
+      )}
     </main>
   );
 }
