@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { getReadingbooks, getAllBookmits } from "@/src/api";
 import { ReadingBookShelf, LargeButton } from "@/src/components";
 
 export default function Home() {
   const [readingbooks, setReadingbooks] = useState([]);
+  const [bookmits, setBookmits] = useState([]);
   const [selectedbookIsbn, setSelectedbookIsbn] = useState<string | null>(null);
 
   const handleSelectedBook = (isbn: string) => {
@@ -13,9 +15,13 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const localReadingbooks = localStorage.getItem("readingbooks");
-    const readingbooks = localReadingbooks ? JSON.parse(localReadingbooks) : [];
+    const readingbooks = getReadingbooks();
     setReadingbooks(() => readingbooks);
+  }, []);
+
+  useEffect(() => {
+    const bookmits = getAllBookmits();
+    setBookmits(() => bookmits);
   }, []);
 
   return (
@@ -30,7 +36,8 @@ export default function Home() {
           <LargeButton>새 책 등록하기</LargeButton>
         </Link>
       )}
-      {selectedbookIsbn}
+      <div>{selectedbookIsbn || "."}</div>
+      {JSON.stringify(bookmits)}
     </main>
   );
 }
