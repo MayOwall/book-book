@@ -1,36 +1,41 @@
-import type { ReadingBookShelf, bookinfo } from "@/src/types";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import type { ReadingBookShelf } from "@/src/types";
 
 export default function ReadingBookShelf({
-  handleSelectedBook,
+  readingbooks,
+  onClick,
 }: ReadingBookShelf) {
-  const [bookitems, setBookitems] = useState(null);
-  useEffect(() => {
-    const readingbooks = localStorage.getItem("readingbooks") || "[]";
-    const bookitems = JSON.parse(readingbooks).map((book: bookinfo) => (
-      <div
-        key={book.isbn}
-        className="relative aspect-book h-full shrink-0 overflow-auto rounded"
-        onClick={() => {
-          handleSelectedBook(book);
-        }}
-      >
-        <Image
-          src={book.image}
-          alt={book.title}
-          fill
-          sizes="100px"
-          style={{ objectFit: `contain` }}
-        />
-      </div>
-    ));
-    setBookitems(() => bookitems);
-  }, []);
   return (
     <div className="flex h-40 items-center gap-4 overflow-auto border border-black p-4">
-      {bookitems ? bookitems : <EmptyBookShelf />}
+      {readingbooks && readingbooks.length ? (
+        <ReadingBookItems readingbooks={readingbooks} onClick={onClick} />
+      ) : (
+        <EmptyBookShelf />
+      )}
     </div>
+  );
+}
+
+function ReadingBookItems({ readingbooks, onClick }: ReadingBookShelf) {
+  return (
+    <>
+      {readingbooks.map((book) => (
+        <div
+          key={book.isbn}
+          className="relative aspect-book h-full shrink-0 overflow-auto rounded"
+          onClick={() => onClick(book.isbn)}
+        >
+          <Image
+            src={book.image}
+            alt={book.title}
+            fill
+            sizes="100px"
+            style={{ objectFit: "contain" }}
+            priority
+          />
+        </div>
+      ))}
+    </>
   );
 }
 
