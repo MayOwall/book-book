@@ -3,9 +3,15 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { getBookitems } from "@/src/api";
-import { BookSearchbar, BookInfoCard } from "@/src/components";
+import {
+  BookSearchbar,
+  BookInfoCard,
+  CraeteBookModalContent,
+} from "@/src/components";
 import { SEARCH_BOOKITEMS_OFFSET } from "@/src/constants";
 import type { bookinfo, bottomButtonStatus } from "@/src/types";
+import { useModalStore } from "@/src/stores";
+import { useRouter } from "next/navigation";
 
 export default function CreateNewBook() {
   const searchPage = useRef(1);
@@ -60,6 +66,8 @@ export default function CreateNewBook() {
     return total <= current * SEARCH_BOOKITEMS_OFFSET;
   };
 
+  const craeteModal = useModalStore((state) => state.createModal);
+
   return (
     <main>
       <div className="flex w-full gap-2 border">
@@ -70,7 +78,13 @@ export default function CreateNewBook() {
       </div>
       <section className="my-4 flex flex-col items-center gap-2">
         {bookitems.map((item) => (
-          <BookInfoCard key={item.isbn} bookinfo={item} />
+          <BookInfoCard
+            key={item.isbn}
+            bookinfo={item}
+            onClick={() =>
+              craeteModal(<CraeteBookModalContent bookinfo={item} />)
+            }
+          />
         ))}
         {bottomButtonStatus === "more" && (
           <button className="m-2 text-blue-500" onClick={onMoreButtonClick}>
