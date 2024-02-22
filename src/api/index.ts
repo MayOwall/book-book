@@ -36,3 +36,29 @@ export const getSelectedBookmits = (isbn: string) => {
 
   return selectedBookmits;
 };
+
+export const postBookmit = (
+  title: string,
+  isbn: string,
+  startPage: number,
+  endPage: number,
+) => {
+  let allBookmits = getAllBookmits();
+  const todayDate = new Date().toString().slice(3, 15);
+  if (allBookmits[0].date !== todayDate) {
+    allBookmits = [{ date: todayDate, bookmits: [] }, ...allBookmits];
+  }
+
+  const today = allBookmits[0];
+  const newBookmit = {
+    _id: `${new Date().getTime()}`,
+    bookinfo: {
+      title,
+      isbn,
+    },
+    startPage,
+    endPage,
+  };
+  today.bookmits = [newBookmit, ...today.bookmits];
+  localStorage.setItem("bookmits", JSON.stringify(allBookmits));
+};
