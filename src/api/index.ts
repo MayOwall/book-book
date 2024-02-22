@@ -45,7 +45,7 @@ export const postBookmit = (
 ) => {
   let allBookmits = getAllBookmits();
   const todayDate = new Date().toString().slice(3, 15);
-  if (allBookmits[0].date !== todayDate) {
+  if (!allBookmits.length || allBookmits[0].date !== todayDate) {
     allBookmits = [{ date: todayDate, bookmits: [] }, ...allBookmits];
   }
 
