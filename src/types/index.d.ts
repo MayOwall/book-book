@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 interface ReadingBookShelf {
   readingbooks: bookinfo[];
-  onClick: (isbn: string) => void;
+  onClick: (bookinfo: bookinfo) => void;
 }
 
 interface LargeButton {

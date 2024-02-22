@@ -23,7 +23,7 @@ function ReadingBookItems({ readingbooks, onClick }: ReadingBookShelf) {
         <div
           key={book.isbn}
           className="relative aspect-book h-full shrink-0 overflow-auto rounded"
-          onClick={() => onClick(book.isbn)}
+          onClick={() => onClick(book)}
         >
           <Image
             src={book.image}

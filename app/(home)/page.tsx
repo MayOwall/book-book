@@ -8,15 +8,19 @@ import {
   LargeButton,
   BookmitsByDate,
 } from "@/src/components";
-import type { BookmitsByDate as bookmitsByDate } from "@/src/types";
+import type { BookmitsByDate as bookmitsByDate, bookinfo } from "@/src/types";
 
 export default function Home() {
   const [readingbooks, setReadingbooks] = useState([]);
   const [bookmits, setBookmits] = useState([]);
-  const [selectedbookIsbn, setSelectedbookIsbn] = useState<string | null>(null);
+  const [selectedBook, setSelectedBook] = useState<bookinfo | null>(null);
 
-  const handleSelectedBook = (isbn: string) => {
-    setSelectedbookIsbn(() => (isbn === selectedbookIsbn ? null : isbn));
+  const handleSelectedBook = (bookinfo: bookinfo) => {
+    if (bookinfo.isbn === selectedBook?.isbn) {
+      setSelectedBook(null);
+      return;
+    }
+    setSelectedBook(() => bookinfo);
   };
 
   useEffect(() => {
@@ -41,7 +45,7 @@ export default function Home() {
           <LargeButton>새 책 등록하기</LargeButton>
         </Link>
       )}
-      <div>선택 : {selectedbookIsbn || "X"}</div>
+      <div>선택 : {JSON.stringify(selectedBook)}</div>
       {!!bookmits &&
         bookmits.map((bookmitsByDate: bookmitsByDate) => (
           <BookmitsByDate key={bookmitsByDate.date} {...bookmitsByDate} />
