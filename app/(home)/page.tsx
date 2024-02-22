@@ -38,6 +38,7 @@ export default function Home() {
       <NewBookButton isReadingbookExist={!!readingbooks.length} />
       <ReadingBookShelf
         readingbooks={readingbooks}
+        selectedBook={selectedBook}
         onClick={handleSelectedBook}
       />
       {!readingbooks.length && (

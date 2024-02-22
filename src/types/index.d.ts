@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 
 interface ReadingBookShelf {
   readingbooks: bookinfo[];
+  selectedBook: bookinfo | null;
   onClick: (bookinfo: bookinfo) => void;
 }
 

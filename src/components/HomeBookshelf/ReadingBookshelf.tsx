@@ -3,12 +3,17 @@ import type { ReadingBookShelf } from "@/src/types";
 
 export default function ReadingBookShelf({
   readingbooks,
+  selectedBook,
   onClick,
 }: ReadingBookShelf) {
   return (
     <div className="flex h-40 items-center gap-4 overflow-auto border border-black p-4">
       {readingbooks && readingbooks.length ? (
-        <ReadingBookItems readingbooks={readingbooks} onClick={onClick} />
+        <ReadingBookItems
+          readingbooks={readingbooks}
+          selectedBook={selectedBook}
+          onClick={onClick}
+        />
       ) : (
         <EmptyBookShelf />
       )}
@@ -16,13 +21,17 @@ export default function ReadingBookShelf({
   );
 }
 
-function ReadingBookItems({ readingbooks, onClick }: ReadingBookShelf) {
+function ReadingBookItems({
+  readingbooks,
+  selectedBook,
+  onClick,
+}: ReadingBookShelf) {
   return (
     <>
       {readingbooks.map((book) => (
         <div
           key={book.isbn}
-          className="relative aspect-book h-full shrink-0 overflow-auto rounded"
+          className={`relative aspect-book h-full shrink-0 overflow-auto rounded ${selectedBook && selectedBook.isbn !== book.isbn ? "opacity-50" : ""}`}
           onClick={() => onClick(book)}
         >
           <Image
