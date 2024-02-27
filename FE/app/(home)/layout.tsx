@@ -1,7 +1,7 @@
 "use client";
 
 import { useModalStore } from "@/src/stores";
-import { Modal } from "@/src/components";
+import { Modal, BottomBar } from "@/src/components";
 
 export default function HomeLayout({
   children,
@@ -14,6 +14,7 @@ export default function HomeLayout({
     <>
       {modalContent && <Modal>{modalContent}</Modal>}
       {children}
+      <BottomBar />
     </>
   );
 }

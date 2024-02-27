@@ -15,6 +15,9 @@ const config: Config = {
       aspectRatio: {
         book: "1 / 1.414",
       },
+      textColor: {
+        green: "#4BD189",
+      },
     },
   },
   plugins: [],
