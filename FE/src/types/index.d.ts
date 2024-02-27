@@ -62,3 +62,11 @@ interface BookmitsByDate {
 interface BookmitList {
   bookmits: BookmitsByDate[];
 }
+
+interface Icon {
+  type: "calendar" | "list" | "write";
+  status?: "default" | "selected";
+  alt: string;
+  size?: number;
+  style?: object;
+}
