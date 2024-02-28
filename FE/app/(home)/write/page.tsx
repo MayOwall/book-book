@@ -4,47 +4,50 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
   getReadingbooks,
-  getAllBookmits,
-  getSelectedBookmits,
+  getAllBookRecords,
+  getSelectedBookRecords,
 } from "@/src/api";
 import {
   ReadingBookShelf,
   LargeButton,
-  BookmitsByDate,
+  BookRecordsByDate,
 } from "@/src/components";
-import type { BookmitsByDate as bookmitsByDate, bookinfo } from "@/src/types";
+import type { bookInfo, bookRecord } from "@/src/types";
 
-export default function Home() {
-  const [readingbooks, setReadingbooks] = useState([]);
-  const [bookmits, setBookmits] = useState<bookmitsByDate[]>([]);
-  const [selectedBook, setSelectedBook] = useState<bookinfo | null>(null);
+export default function Write() {
+  const [readingbooks, setReadingbooks] = useState<bookInfo[]>([]);
+  const [bookRecords, setBookRecords] = useState<bookRecord[]>([]);
+  const [selectedBook, setSelectedBook] = useState<bookInfo | null>(null);
 
-  const handleSelectedBook = (bookinfo: bookinfo) => {
-    if (bookinfo.isbn === selectedBook?.isbn) {
-      setSelectedBook(null);
-      return;
+  // 책 변경에 대한 값 반영.
+  const handleSelectedBook = (nextSelectedBook: bookInfo) => {
+    if (!selectedBook || nextSelectedBook.isbn !== selectedBook.isbn) {
+      return setSelectedBook(() => nextSelectedBook);
     }
-    setSelectedBook(() => bookinfo);
+    setSelectedBook(null);
   };
 
+  // 첫 랜더링시 모든 읽고 있는 책을 불러옴.
   useEffect(() => {
     const readingbooks = getReadingbooks();
     setReadingbooks(() => readingbooks);
   }, []);
 
+  // 첫 랜더링시 모든 책 기록을 불러옴.
   useEffect(() => {
-    const bookmits = getAllBookmits();
-    setBookmits(() => bookmits);
+    const allBookRecords = getAllBookRecords();
+    setBookRecords(() => allBookRecords);
   }, []);
 
+  // 선택한 책이 변경될 때 마다 해당 책의 기록을 불러옴.
   useEffect(() => {
     if (!selectedBook) {
-      const bookmits = getAllBookmits();
-      setBookmits(() => bookmits);
-      return;
+      const nextBookRecords = getAllBookRecords();
+      return setBookRecords(() => nextBookRecords);
     }
-    const bookmits = getSelectedBookmits(selectedBook.isbn);
-    setBookmits(() => bookmits);
+
+    const nextBookRecords = getSelectedBookRecords(selectedBook.isbn);
+    setBookRecords(() => nextBookRecords);
   }, [selectedBook]);
 
   return (
@@ -56,22 +59,24 @@ export default function Home() {
         onClick={handleSelectedBook}
       />
       {!readingbooks.length && (
-        <Link href="./books/create">
+        <Link href="/write/book/create">
           <LargeButton>새 책 등록하기</LargeButton>
         </Link>
       )}
       {selectedBook && (
         <Link
-          href={`/bookmit/create?isbn=${selectedBook.isbn}&title=${selectedBook.title}`}
+          href={{
+            pathname: `/write/record/create/${selectedBook.title}`,
+            query: {
+              bookInfo: JSON.stringify(selectedBook),
+            },
+          }}
         >
           <LargeButton>새 북밋 생성</LargeButton>
         </Link>
       )}
-      {!!bookmits.length &&
-        bookmits.map((bookmitsByDate: bookmitsByDate) => (
-          <BookmitsByDate key={bookmitsByDate.date} {...bookmitsByDate} />
-        ))}
-      {!bookmits.length && (
+      {!!bookRecords.length && <BookRecordsByDate bookRecords={bookRecords} />}
+      {!bookRecords.length && (
         <div className="m-2 text-center text-sm text-neutral-400">
           작성한 북밋이 없어요
         </div>
@@ -87,7 +92,7 @@ function NewBookButton({
 }) {
   return (
     <div className="text-right">
-      <Link href="/books/create">
+      <Link href="/write/book/create">
         <button
           className={`${!isReadingbookExist && "invisible"} text-sm text-blue-500`}
         >

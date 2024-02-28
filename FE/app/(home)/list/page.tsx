@@ -1,16 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAllBookmits } from "@/src/api";
-import { BookmitsByDate } from "@/src/components";
-import type { BookmitsByDate as bookmitsByDate } from "@/src/types";
+import { getAllBookRecords } from "@/src/api";
+import { BookRecordsByDate } from "@/src/components";
+import type { bookRecord } from "@/src/types";
 
 export default function ListPage() {
-  const [bookmits, setBookmits] = useState<bookmitsByDate[]>([]);
+  const [bookRecords, setBookRecords] = useState<bookRecord[]>([]);
 
   useEffect(() => {
-    const bookmits = getAllBookmits();
-    setBookmits(() => bookmits);
+    const bookRecords = getAllBookRecords();
+    setBookRecords(() => bookRecords);
   }, []);
 
   return (
@@ -18,20 +18,9 @@ export default function ListPage() {
       <h2 className="w-full px-4 font-bold text-neutral-300">독서 리스트</h2>
       <section className="flex w-full flex-col items-end rounded-2xl bg-white p-4">
         <YearMonthChangeButton />
-        <BookmitList bookmits={bookmits} />
+        <BookRecordsByDate bookRecords={bookRecords} />
       </section>
     </main>
-  );
-}
-
-function BookmitList({ bookmits }: { bookmits: bookmitsByDate[] }) {
-  return (
-    <>
-      {!!bookmits.length &&
-        bookmits.map((bookmitsByDate: bookmitsByDate) => (
-          <BookmitsByDate key={bookmitsByDate.date} {...bookmitsByDate} />
-        ))}
-    </>
   );
 }
 
