@@ -16,7 +16,7 @@ interface BookSearchbar {
   handleSubmit: (keyword: string) => void;
 }
 
-interface bookinfo {
+interface bookInfo {
   isbn: string;
   title: string;
   image: string;
@@ -69,4 +69,19 @@ interface Icon {
   alt: string;
   size?: number;
   style?: object;
+}
+
+interface bookRecord {
+  _id: string;
+  date: string;
+  bookInfo: {
+    isbn: string;
+    title: string;
+  };
+  startPage: number;
+  endPage: number;
+}
+
+interface DailyBookRecord {
+  bookRecords: bookRecord[];
 }
