@@ -7,6 +7,7 @@ import CraeteBookModalContent from "./Modal/Contents/CreateBookModalContent";
 import BookmitsByDate from "./BookmitsByDate/BookmitsByDate";
 import BottomBar from "./BottomBar/BottomBar";
 import Icon from "./Icon/Icon";
+import BookRecordsByDate from "./BookRecordsByDate/BookRecordsByDate";
 
 export {
   ReadingBookShelf,
@@ -18,4 +19,5 @@ export {
   BookmitsByDate,
   BottomBar,
   Icon,
+  BookRecordsByDate,
 };
