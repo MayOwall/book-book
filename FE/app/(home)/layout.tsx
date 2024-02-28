@@ -2,6 +2,7 @@
 
 import { useModalStore } from "@/src/stores";
 import { Modal, BottomBar } from "@/src/components";
+import { Suspense } from "react";
 
 export default function HomeLayout({
   children,
@@ -11,10 +12,10 @@ export default function HomeLayout({
   const modalContent = useModalStore((state) => state.content);
 
   return (
-    <>
+    <Suspense>
       {modalContent && <Modal>{modalContent}</Modal>}
       {children}
       <BottomBar />
-    </>
+    </Suspense>
   );
 }
