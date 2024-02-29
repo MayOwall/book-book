@@ -8,6 +8,7 @@ import BookmitsByDate from "./BookmitsByDate/BookmitsByDate";
 import BottomBar from "./BottomBar/BottomBar";
 import Icon from "./Icon/Icon";
 import BookRecordsByDate from "./BookRecordsByDate/BookRecordsByDate";
+import Calendar from "./Calendar/Calendar";
 
 export {
   ReadingBookShelf,
@@ -20,4 +21,5 @@ export {
   BottomBar,
   Icon,
   BookRecordsByDate,
+  Calendar,
 };

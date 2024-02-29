@@ -30,6 +30,7 @@ export const sortBookRecordsByDate = (bookRecords: bookRecord[]) => {
   return result;
 };
 
+// 0000년 00월 00일 (요일) 형식의 날짜 문자열을 리턴하는 로직
 export const getFormalizedDate = (dateStr: string) => {
   const dateInfo = new Date(dateStr);
   const year = dateInfo.getFullYear();
