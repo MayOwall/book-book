@@ -64,7 +64,7 @@ interface BookmitList {
 }
 
 interface Icon {
-  type: "calendar" | "list" | "write";
+  type: "calendar" | "list" | "write" | "arrowdown";
   status?: "default" | "selected";
   alt: string;
   size?: number;
@@ -82,6 +82,10 @@ interface bookRecord {
   endPage: number;
 }
 
-interface DailyBookRecord {
+interface dailyBookRecord {
+  date: string;
   bookRecords: bookRecord[];
 }
+
+type weeklyBookRecord = (dailyBookRecord | null)[];
+type calendarBookRecord = weeklyBookRecord[];

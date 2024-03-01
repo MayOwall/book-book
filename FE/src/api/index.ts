@@ -1,4 +1,10 @@
-import type { bookInfo, bookRecord } from "@/src/types";
+import type {
+  bookInfo,
+  bookRecord,
+  calendarBookRecord,
+  dailyBookRecord,
+} from "@/src/types";
+import { sortBookRecordsByDate } from "@/src/utils";
 
 export const getBookitems = async (keyword: string, page: number) => {
   const data = await fetch(`/api/searchbook?keyword=${keyword}&page=${page}`);
@@ -27,6 +33,54 @@ export const getSelectedBookRecords = (isbn: string) => {
     (record) => record.bookInfo.isbn === isbn,
   );
   return selectedBookmits;
+};
+
+export const getMonthBookRecords = (year: number, month: number) => {
+  const bookRecords = getAllBookRecords();
+  const monthBookRecords = bookRecords.filter(
+    ({ date }) =>
+      new Date(date).getMonth() === month &&
+      new Date(date).getFullYear() === year,
+  );
+  return monthBookRecords;
+};
+
+export const getCalendarBookRecords = (
+  year: number,
+  month: number,
+): calendarBookRecord => {
+  const monthBookRecords = getMonthBookRecords(year, month);
+  const monthBookRecordsByDate = sortBookRecordsByDate(monthBookRecords);
+
+  const weeks = [];
+  let week: (null | dailyBookRecord)[] = Array.from({ length: 7 }, () => null);
+  const lastDate = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 1; i <= lastDate; i++) {
+    const curDate = new Date(year, month, i);
+    const day = curDate.getDay();
+
+    if (
+      monthBookRecordsByDate.length &&
+      monthBookRecordsByDate[0].date === curDate.toDateString()
+    ) {
+      const records = monthBookRecordsByDate.shift()!;
+      week[day] = records;
+    } else {
+      week[day] = { date: curDate.toDateString(), bookRecords: [] };
+    }
+
+    if (day === 6) {
+      weeks.push(week);
+      week = Array.from({ length: 7 }, () => null);
+    }
+  }
+
+  if (week.filter((v) => v).length) {
+    weeks.push(week);
+  }
+
+  return weeks;
 };
 
 export const postBookmit = (
