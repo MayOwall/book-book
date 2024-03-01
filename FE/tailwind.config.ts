@@ -18,8 +18,18 @@ const config: Config = {
       textColor: {
         green: "#4BD189",
       },
+      backgroundColor: {
+        "page-none": "#4BD18900",
+        "page-little": "#4BD18930",
+        "page-ordinary": "#4BD18960",
+        "page-many": "#4BD189",
+      },
     },
   },
+  safelist: [
+    { pattern: /bg-page-(none|little|ordinary|many)/ },
+    "border-red-500",
+  ],
   plugins: [],
 };
 export default config;
