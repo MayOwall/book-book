@@ -71,7 +71,10 @@ export default function CreateNewBook() {
     <main>
       <div className="flex w-full gap-2">
         <BookSearchbar handleSubmit={onSearchbarSubmit} />
-        <Link href="/" className="flex shrink-0 items-center justify-center">
+        <Link
+          href="/write"
+          className="flex shrink-0 items-center justify-center"
+        >
           <button className="px-3">취소</button>
         </Link>
       </div>

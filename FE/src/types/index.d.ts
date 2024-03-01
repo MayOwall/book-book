@@ -16,7 +16,7 @@ interface BookSearchbar {
   handleSubmit: (keyword: string) => void;
 }
 
-interface bookinfo {
+interface bookInfo {
   isbn: string;
   title: string;
   image: string;
@@ -62,3 +62,30 @@ interface BookmitsByDate {
 interface BookmitList {
   bookmits: BookmitsByDate[];
 }
+
+interface Icon {
+  type: "calendar" | "list" | "write" | "arrowdown";
+  status?: "default" | "selected";
+  alt: string;
+  size?: number;
+  style?: object;
+}
+
+interface bookRecord {
+  _id: string;
+  date: string;
+  bookInfo: {
+    isbn: string;
+    title: string;
+  };
+  startPage: number;
+  endPage: number;
+}
+
+interface dailyBookRecord {
+  date: string;
+  bookRecords: bookRecord[];
+}
+
+type weeklyBookRecord = (dailyBookRecord | null)[];
+type calendarBookRecord = weeklyBookRecord[];

@@ -5,6 +5,10 @@ import BookInfoCard from "./BookInfoCard/BookInfoCard";
 import Modal from "./Modal/Modal";
 import CraeteBookModalContent from "./Modal/Contents/CreateBookModalContent";
 import BookmitsByDate from "./BookmitsByDate/BookmitsByDate";
+import BottomBar from "./BottomBar/BottomBar";
+import Icon from "./Icon/Icon";
+import BookRecordsByDate from "./BookRecordsByDate/BookRecordsByDate";
+import Calendar from "./Calendar/Calendar";
 
 export {
   ReadingBookShelf,
@@ -14,4 +18,8 @@ export {
   Modal,
   CraeteBookModalContent,
   BookmitsByDate,
+  BottomBar,
+  Icon,
+  BookRecordsByDate,
+  Calendar,
 };
