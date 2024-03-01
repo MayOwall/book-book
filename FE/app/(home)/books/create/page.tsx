@@ -9,14 +9,13 @@ import {
   CraeteBookModalContent,
 } from "@/src/components";
 import { SEARCH_BOOKITEMS_OFFSET } from "@/src/constants";
-import type { bookinfo, bottomButtonStatus } from "@/src/types";
+import type { bookInfo, bottomButtonStatus } from "@/src/types";
 import { useModalStore } from "@/src/stores";
-import { useRouter } from "next/navigation";
 
 export default function CreateNewBook() {
   const searchPage = useRef(1);
   const searchword = useRef("");
-  const [bookitems, setBookitems] = useState<bookinfo[]>([]);
+  const [bookitems, setBookitems] = useState<bookInfo[]>([]);
   const [bottomButtonStatus, setBottomButtonStatus] =
     useState<bottomButtonStatus>("nonDisplay");
 
@@ -32,7 +31,7 @@ export default function CreateNewBook() {
   };
 
   // 새로운 검색 결과를 반영
-  const handleBookitems = (total: number, bookitems: bookinfo[]) => {
+  const handleBookitems = (total: number, bookitems: bookInfo[]) => {
     if (!total) {
       setBottomButtonStatus(() => "nobooks");
       return;
