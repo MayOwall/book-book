@@ -6,9 +6,8 @@ interface ReadingBookShelf {
   onClick: (bookinfo: bookinfo) => void;
 }
 
-interface LargeButton {
+interface Button {
   children: ReactNode;
-  type?: "fill" | "line";
   onClick?: () => any;
 }
 

@@ -23,6 +23,7 @@ const config: Config = {
         "page-little": "#4BD18930",
         "page-ordinary": "#4BD18960",
         "page-many": "#4BD189",
+        main: "#4BD189",
       },
     },
   },

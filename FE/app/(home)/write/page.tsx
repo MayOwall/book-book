@@ -7,11 +7,7 @@ import {
   getAllBookRecords,
   getSelectedBookRecords,
 } from "@/src/api";
-import {
-  ReadingBookShelf,
-  LargeButton,
-  BookRecordsByDate,
-} from "@/src/components";
+import { ReadingBookShelf, Button, BookRecordsByDate } from "@/src/components";
 import type { bookInfo, bookRecord } from "@/src/types";
 
 export default function Write() {
@@ -60,7 +56,7 @@ export default function Write() {
       />
       {!readingbooks.length && (
         <Link href="/write/book/create">
-          <LargeButton>새 책 등록하기</LargeButton>
+          <Button>새 책 등록하기</Button>
         </Link>
       )}
       {selectedBook && (
@@ -72,7 +68,7 @@ export default function Write() {
             },
           }}
         >
-          <LargeButton>새 북밋 생성</LargeButton>
+          <Button>새 북밋 생성</Button>
         </Link>
       )}
       {!!bookRecords.length && <BookRecordsByDate bookRecords={bookRecords} />}
