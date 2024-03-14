@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useModalStore } from "@/src/stores";
-import { BookInfoCard, LargeButton } from "@/src/components";
+import { BookInfoCard, Button } from "@/src/components";
 import type { bookInfo } from "@/src/types";
 
 export default function CreateBookModalContent({
@@ -30,7 +30,7 @@ export default function CreateBookModalContent({
       <h1 className="text-xl font-bold">이 책을 등록할까요?</h1>
       <BookInfoCard type="large" bookinfo={bookinfo} />
       <div className="flex w-full flex-col items-center gap-2">
-        <LargeButton onClick={onSubmit}>등록하기</LargeButton>
+        <Button onClick={onSubmit}>등록하기</Button>
         <button className="text-neutral-500" onClick={remoteModal}>
           취소
         </button>

@@ -7,11 +7,7 @@ import {
   getAllBookRecords,
   getSelectedBookRecords,
 } from "@/src/api";
-import {
-  ReadingBookShelf,
-  LargeButton,
-  BookRecordsByDate,
-} from "@/src/components";
+import { ReadingBookShelf, Button, BookRecordsByDate } from "@/src/components";
 import type { bookInfo, bookRecord } from "@/src/types";
 
 export default function Write() {
@@ -51,7 +47,7 @@ export default function Write() {
   }, [selectedBook]);
 
   return (
-    <main className="flex flex-col gap-1">
+    <main className="flex flex-col gap-4">
       <NewBookButton isReadingbookExist={!!readingbooks.length} />
       <ReadingBookShelf
         readingbooks={readingbooks}
@@ -60,7 +56,7 @@ export default function Write() {
       />
       {!readingbooks.length && (
         <Link href="/write/book/create">
-          <LargeButton>새 책 등록하기</LargeButton>
+          <Button>새로운 책 등록하기</Button>
         </Link>
       )}
       {selectedBook && (
@@ -72,14 +68,12 @@ export default function Write() {
             },
           }}
         >
-          <LargeButton>새 북밋 생성</LargeButton>
+          <Button>새 북밋 생성</Button>
         </Link>
       )}
       {!!bookRecords.length && <BookRecordsByDate bookRecords={bookRecords} />}
       {!bookRecords.length && (
-        <div className="m-2 text-center text-sm text-neutral-400">
-          작성한 북밋이 없어요
-        </div>
+        <div className="text-center text-neutral-300">작성한 북밋이 없어요</div>
       )}
     </main>
   );

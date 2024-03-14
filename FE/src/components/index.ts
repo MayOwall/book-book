@@ -1,5 +1,5 @@
-import ReadingBookShelf from "./HomeBookshelf/ReadingBookshelf";
-import LargeButton from "./LargeButton/LargeButton";
+import ReadingBookShelf from "./ReadingBookshelf/ReadingBookshelf";
+import Button from "./Button/Button";
 import BookSearchbar from "./BookSearchbar/BookSearchbar";
 import BookInfoCard from "./BookInfoCard/BookInfoCard";
 import Modal from "./Modal/Modal";
@@ -12,7 +12,7 @@ import Calendar from "./Calendar/Calendar";
 
 export {
   ReadingBookShelf,
-  LargeButton,
+  Button,
   BookSearchbar,
   BookInfoCard,
   Modal,
