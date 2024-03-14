@@ -79,7 +79,7 @@ export default function Write() {
       {selectedBook && !bookRecords.length && (
         <div className="text-center text-neutral-300">작성한 기록이 없어요</div>
       )}
-      {!selectedBook && (
+      {!!readingbooks.length && !selectedBook && (
         <div className="p-3 text-center text-neutral-300">
           기록할 책을 선택해주세요
         </div>

@@ -50,8 +50,6 @@ function ReadingBookItems({
 
 function EmptyBookShelf() {
   return (
-    <div className=" w-full text-center text-neutral-300">
-      새로운 책을 등록해주세요
-    </div>
+    <div className=" m-auto text-neutral-300">새로운 책을 등록해주세요</div>
   );
 }
