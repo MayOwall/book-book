@@ -40,7 +40,6 @@ export default function CreateRecord() {
       return;
     }
 
-    debugger;
     router.push(
       `/write/record/create/confirm?title=${title}&isbn=${isbn}&startPage=${startPage}&endPage=${endPage}`,
     );
