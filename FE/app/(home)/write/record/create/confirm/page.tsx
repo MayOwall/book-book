@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { LargeButton } from "@/src/components";
+import { Button } from "@/src/components";
 import { postBookmit } from "@/src/api";
 
 export default function BookmitCreate() {
@@ -36,7 +36,7 @@ export default function BookmitCreate() {
       </div>
 
       <div className="absolute bottom-28 flex w-full flex-col justify-center gap-4">
-        <LargeButton onClick={onSubmit}>북밋 생성하기</LargeButton>
+        <Button onClick={onSubmit}>북밋 생성하기</Button>
         <Link href="/write" className="w-full text-center">
           <button className=" text-neutral-400">생성 취소</button>
         </Link>

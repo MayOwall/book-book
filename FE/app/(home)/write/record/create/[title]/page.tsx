@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useState } from "react";
-import { LargeButton } from "@/src/components";
+import { Button } from "@/src/components";
 import { bookInfo } from "@/src/types";
 
 export default function CreateRecord() {
@@ -64,7 +64,7 @@ export default function CreateRecord() {
         placeholder="마지막 페이지를 입력해주세요"
       />
       <div className="absolute bottom-28 flex w-full flex-col justify-center gap-4">
-        <LargeButton onClick={onSubmit}>페이지 입력하기</LargeButton>
+        <Button onClick={onSubmit}>페이지 입력하기</Button>
         <Link href="/write" className="w-full text-center">
           <button className=" text-neutral-400">입력 취소</button>
         </Link>
