@@ -68,12 +68,16 @@ export default function Write() {
             },
           }}
         >
-          <Button>새 북밋 생성</Button>
+          <Button>새로운 독서 기록하기</Button>
         </Link>
       )}
-      {!!bookRecords.length && <BookRecordsByDate bookRecords={bookRecords} />}
+      {!!bookRecords.length && (
+        <div className="w-full rounded-lg bg-white p-4">
+          <BookRecordsByDate bookRecords={bookRecords} />
+        </div>
+      )}
       {!bookRecords.length && (
-        <div className="text-center text-neutral-300">작성한 북밋이 없어요</div>
+        <div className="text-center text-neutral-300">작성한 기록이 없어요</div>
       )}
     </main>
   );
@@ -88,7 +92,7 @@ function NewBookButton({
     <div className="text-right">
       <Link href="/write/book/create">
         <button
-          className={`${!isReadingbookExist && "invisible"} text-sm text-blue-500`}
+          className={`${!isReadingbookExist && "invisible"} text-emerald-400`}
         >
           새 책 등록
         </button>

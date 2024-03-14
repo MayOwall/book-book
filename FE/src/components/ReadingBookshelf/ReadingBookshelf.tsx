@@ -33,7 +33,7 @@ function ReadingBookItems({
       {readingbooks.map((book) => (
         <div
           key={book.isbn}
-          className={`relative aspect-book h-full shrink-0 overflow-auto rounded ${selectedBook && selectedBook.isbn !== book.isbn ? "opacity-50" : ""}`}
+          className={`relative aspect-book h-full shrink-0 overflow-auto rounded ${selectedBook ? (selectedBook.isbn !== book.isbn ? "opacity-50" : "outline outline-2 outline-emerald-400") : ""}`}
           onClick={() => onClick(book)}
         >
           <Image
