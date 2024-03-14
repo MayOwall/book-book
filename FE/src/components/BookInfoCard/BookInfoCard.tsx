@@ -10,7 +10,7 @@ export default function BookInfoCard({
 
   const style = {
     container: {
-      small: "flex h-28 w-full gap-2 border border-black",
+      small: "flex h-32 w-full gap-4 bg-white rounded-lg",
       large: "w-full flex flex-col items-center gap-4 p-4 border border-black",
     },
     image: {
@@ -19,12 +19,12 @@ export default function BookInfoCard({
     },
     textbox: {
       small:
-        "flex w-full flex-col justify-center gap-1 overflow-hidden text-xs",
+        "flex w-full flex-col justify-center gap-2 overflow-hidden text-neutral-800",
       large:
         "flex w-full flex-col items-center justify-center gap-1  overflow-hidden",
     },
     title: {
-      small: "w-full truncate text-sm font-bold pr-4",
+      small: "w-full truncate font-bold pr-4 pt-2",
       large: "w-fit max-w-full text-center text-base font-bold",
     },
   };
@@ -42,8 +42,10 @@ export default function BookInfoCard({
       </div>
       <div className={style.textbox[type]}>
         <div className={style.title[type]}>{title}</div>
-        <div className="truncate">{author}</div>
-        <div className="truncate">{publisher}</div>
+        <div>
+          <div className="truncate">{author}</div>
+          <div className="truncate">{publisher}</div>
+        </div>
       </div>
     </div>
   );
