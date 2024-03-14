@@ -11,7 +11,7 @@ export default function BookInfoCard({
   const style = {
     container: {
       small: "flex h-32 w-full gap-4 bg-white rounded-lg",
-      large: "w-full flex flex-col items-center gap-4 p-4 border border-black",
+      large: "w-full flex flex-col items-center gap-4 p-4",
     },
     image: {
       small: "aspect-book relative h-full rounded",
@@ -21,7 +21,7 @@ export default function BookInfoCard({
       small:
         "flex w-full flex-col justify-center gap-2 overflow-hidden text-neutral-800",
       large:
-        "flex w-full flex-col items-center justify-center gap-1  overflow-hidden",
+        "flex w-full flex-col items-center justify-center gap-2 text-center overflow-hidden",
     },
     title: {
       small: "w-full truncate font-bold pr-4 pt-2",

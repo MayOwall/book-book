@@ -26,13 +26,13 @@ export default function CreateBookModalContent({
   };
 
   return (
-    <section className="flex flex-col items-center gap-8">
+    <section className="flex flex-col items-center gap-6">
       <h1 className="text-xl font-bold">이 책을 등록할까요?</h1>
       <BookInfoCard type="large" bookinfo={bookinfo} />
       <div className="flex w-full flex-col items-center gap-2">
-        <Button onClick={onSubmit}>등록하기</Button>
-        <button className="text-neutral-500" onClick={remoteModal}>
-          취소
+        <Button onClick={onSubmit}>네, 이 책을 등록할게요</Button>
+        <button className="text-neutral-300" onClick={remoteModal}>
+          등록 취소
         </button>
       </div>
     </section>
