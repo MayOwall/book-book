@@ -69,16 +69,16 @@ export default function CreateNewBook() {
 
   return (
     <main>
-      <div className="flex w-full gap-2">
+      <div className="flex w-full gap-4">
         <BookSearchbar handleSubmit={onSearchbarSubmit} />
         <Link
           href="/write"
           className="flex shrink-0 items-center justify-center"
         >
-          <button className="px-3">취소</button>
+          <button className="text-neutral-500">취소</button>
         </Link>
       </div>
-      <section className="my-4 flex flex-col items-center gap-2">
+      <section className=" my-4 flex flex-col items-center gap-2">
         {bookitems.map((item) => (
           <BookInfoCard
             key={item.isbn}

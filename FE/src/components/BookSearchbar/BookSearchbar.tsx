@@ -18,7 +18,7 @@ export default function BookSearchbar({ handleSubmit }: BookSearchbar) {
   return (
     <form className="w-full" onSubmit={onSubmit}>
       <input
-        className="size-1 h-10 w-full rounded border border-neutral-400 px-2 outline-none"
+        className="size-1 h-10 w-full rounded border border-neutral-300 px-2 outline-emerald-400"
         placeholder="검색할 책을 입력해주세요"
         value={keyword}
         onChange={onChange}
