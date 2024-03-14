@@ -71,13 +71,18 @@ export default function Write() {
           <Button>새로운 독서 기록하기</Button>
         </Link>
       )}
-      {!!bookRecords.length && (
+      {selectedBook && !!bookRecords.length && (
         <div className="w-full rounded-lg bg-white p-4">
           <BookRecordsByDate bookRecords={bookRecords} />
         </div>
       )}
-      {!bookRecords.length && (
+      {selectedBook && !bookRecords.length && (
         <div className="text-center text-neutral-300">작성한 기록이 없어요</div>
+      )}
+      {!selectedBook && (
+        <div className="p-3 text-center text-neutral-300">
+          기록할 책을 선택해주세요
+        </div>
       )}
     </main>
   );

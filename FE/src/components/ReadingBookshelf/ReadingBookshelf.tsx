@@ -7,9 +7,7 @@ export default function ReadingBookShelf({
   onClick,
 }: ReadingBookShelf) {
   return (
-    <div
-      className={`flex h-40 items-center gap-4 overflow-auto rounded-lg bg-white p-4`}
-    >
+    <div className="flex h-40 w-full gap-4 overflow-auto rounded-lg bg-white p-4">
       {readingbooks && readingbooks.length ? (
         <ReadingBookItems
           readingbooks={readingbooks}
@@ -33,7 +31,7 @@ function ReadingBookItems({
       {readingbooks.map((book) => (
         <div
           key={book.isbn}
-          className={`relative aspect-book h-full shrink-0 overflow-auto rounded ${selectedBook ? (selectedBook.isbn !== book.isbn ? "opacity-50" : "outline outline-2 outline-emerald-400") : ""}`}
+          className={`relative aspect-book h-full shrink-0 overflow-auto rounded border border-neutral-200 ${selectedBook ? (selectedBook.isbn !== book.isbn ? "opacity-50" : "outline outline-2 outline-emerald-400") : ""}`}
           onClick={() => onClick(book)}
         >
           <Image
@@ -41,7 +39,7 @@ function ReadingBookItems({
             alt={book.title}
             fill
             sizes="100px"
-            style={{ objectFit: "contain" }}
+            style={{ objectFit: "fill" }}
             priority
           />
         </div>
