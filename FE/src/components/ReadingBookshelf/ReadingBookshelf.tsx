@@ -7,7 +7,9 @@ export default function ReadingBookShelf({
   onClick,
 }: ReadingBookShelf) {
   return (
-    <div className="flex h-40 items-center gap-4 overflow-auto border border-black p-4">
+    <div
+      className={`flex h-40 items-center gap-4 overflow-auto rounded-lg bg-white p-4`}
+    >
       {readingbooks && readingbooks.length ? (
         <ReadingBookItems
           readingbooks={readingbooks}
@@ -50,8 +52,8 @@ function ReadingBookItems({
 
 function EmptyBookShelf() {
   return (
-    <div className=" w-full text-center text-neutral-500">
-      새 책을 등록해주세요
+    <div className=" w-full text-center text-neutral-300">
+      새로운 책을 등록해주세요
     </div>
   );
 }

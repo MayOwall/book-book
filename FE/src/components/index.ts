@@ -1,4 +1,4 @@
-import ReadingBookShelf from "./HomeBookshelf/ReadingBookshelf";
+import ReadingBookShelf from "./ReadingBookshelf/ReadingBookshelf";
 import Button from "./Button/Button";
 import BookSearchbar from "./BookSearchbar/BookSearchbar";
 import BookInfoCard from "./BookInfoCard/BookInfoCard";

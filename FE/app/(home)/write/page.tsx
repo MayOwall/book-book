@@ -47,7 +47,7 @@ export default function Write() {
   }, [selectedBook]);
 
   return (
-    <main className="flex flex-col gap-1">
+    <main className="flex flex-col gap-4">
       <NewBookButton isReadingbookExist={!!readingbooks.length} />
       <ReadingBookShelf
         readingbooks={readingbooks}
@@ -56,7 +56,7 @@ export default function Write() {
       />
       {!readingbooks.length && (
         <Link href="/write/book/create">
-          <Button>새 책 등록하기</Button>
+          <Button>새로운 책 등록하기</Button>
         </Link>
       )}
       {selectedBook && (
@@ -73,9 +73,7 @@ export default function Write() {
       )}
       {!!bookRecords.length && <BookRecordsByDate bookRecords={bookRecords} />}
       {!bookRecords.length && (
-        <div className="m-2 text-center text-sm text-neutral-400">
-          작성한 북밋이 없어요
-        </div>
+        <div className="text-center text-neutral-300">작성한 북밋이 없어요</div>
       )}
     </main>
   );
