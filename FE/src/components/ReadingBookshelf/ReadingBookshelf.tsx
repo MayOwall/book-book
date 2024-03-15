@@ -7,7 +7,7 @@ export default function ReadingBookShelf({
   onClick,
 }: ReadingBookShelf) {
   return (
-    <div className="flex h-40 w-full gap-4 overflow-auto rounded-lg bg-white p-4">
+    <div className="flex h-40 w-full shrink-0 gap-4 overflow-auto rounded-lg bg-white p-4">
       {readingbooks && readingbooks.length ? (
         <ReadingBookItems
           readingbooks={readingbooks}

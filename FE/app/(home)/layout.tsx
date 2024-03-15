@@ -14,7 +14,7 @@ export default function HomeLayout({
   return (
     <Suspense>
       {modalContent && <Modal>{modalContent}</Modal>}
-      {children}
+      <div className="h-full w-full pb-12">{children}</div>
       <BottomBar />
     </Suspense>
   );
