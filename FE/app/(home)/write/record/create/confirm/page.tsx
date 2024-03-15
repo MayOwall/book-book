@@ -16,7 +16,7 @@ export default function BookmitCreate() {
 
   const onSubmit = () => {
     postBookmit(title, isbn, startPage, endPage);
-    router.push("/write");
+    router.push("/calendar");
   };
 
   return (
