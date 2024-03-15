@@ -47,7 +47,7 @@ export default function Write() {
   }, [selectedBook]);
 
   return (
-    <main className="flex flex-col gap-4">
+    <main className="flex h-full w-full flex-col gap-4">
       <NewBookButton isReadingbookExist={!!readingbooks.length} />
       <ReadingBookShelf
         readingbooks={readingbooks}
@@ -72,7 +72,7 @@ export default function Write() {
         </Link>
       )}
       {selectedBook && !!bookRecords.length && (
-        <div className="w-full rounded-lg bg-white p-4">
+        <div className="w-full overflow-auto rounded-lg bg-white p-4">
           <BookRecordsByDate bookRecords={bookRecords} />
         </div>
       )}
@@ -94,7 +94,7 @@ function NewBookButton({
   isReadingbookExist: boolean;
 }) {
   return (
-    <div className="text-right">
+    <div className="shrink-0 text-right">
       <Link href="/write/book/create">
         <button
           className={`${!isReadingbookExist && "invisible"} text-emerald-400`}

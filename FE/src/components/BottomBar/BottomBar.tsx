@@ -12,7 +12,7 @@ export default function BottomBar() {
   const currentPath = getCurrentPath(pathname);
 
   return (
-    <nav className="fixed bottom-0 left-0 flex w-lvw justify-center border-2 bg-white text-neutral-300 ">
+    <nav className="fixed bottom-0 left-0 flex w-lvw justify-center bg-white text-neutral-300 ">
       <ul className="flex h-12 w-full max-w-screen-sm">
         <Link href="/write" className="w-full">
           <li className={ITEM_STYLE}>

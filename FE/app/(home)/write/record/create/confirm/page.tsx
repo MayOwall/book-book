@@ -43,7 +43,7 @@ export default function BookmitCreate() {
         </div>
       </div>
 
-      <div className="absolute bottom-28 flex w-full flex-col justify-center gap-4">
+      <div className="absolute bottom-4 flex w-full flex-col justify-center gap-4">
         <Button onClick={onSubmit}>네, 이 독서 내용을 기록할게요</Button>
         <Link href="/write" className="w-full text-center">
           <button className=" text-neutral-300">기록 취소</button>

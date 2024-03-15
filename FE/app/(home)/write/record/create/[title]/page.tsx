@@ -71,7 +71,7 @@ export default function CreateRecord() {
         onChange={handleEndPage}
         placeholder="마지막 페이지를 입력해주세요"
       />
-      <div className="absolute bottom-28 flex w-full flex-col justify-center gap-4">
+      <div className="absolute bottom-4 flex w-full flex-col justify-center gap-4">
         <Button onClick={onSubmit}>페이지 입력 완료</Button>
         <Link href="/write" className="w-full text-center">
           <button className=" text-neutral-400">입력 취소</button>

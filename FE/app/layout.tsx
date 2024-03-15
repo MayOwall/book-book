@@ -19,8 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={inter.className}>
-      <body className="flex justify-center">
-        <div className="min-h-screen w-full max-w-screen-sm bg-neutral-100 p-4">
+      <body className="flex h-svh justify-center">
+        <div className="h-full min-h-fit w-full max-w-screen-sm bg-neutral-100 p-4">
           {children}
         </div>
       </body>
