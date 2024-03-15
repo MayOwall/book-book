@@ -107,3 +107,11 @@ export const postBookmit = (
   ]);
   localStorage.setItem("book-records", nextLocalBookRecords);
 };
+
+export const getIsTodayBookRecordExist = () => {
+  const today = new Date().toDateString();
+  const bookRecords = getAllBookRecords();
+  const isTodayBookRecordExist = !!bookRecords.find((v) => v.date === today);
+
+  return isTodayBookRecordExist;
+};

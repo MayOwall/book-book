@@ -9,6 +9,7 @@ import BottomBar from "./BottomBar/BottomBar";
 import Icon from "./Icon/Icon";
 import BookRecordsByDate from "./BookRecordsByDate/BookRecordsByDate";
 import Calendar from "./Calendar/Calendar";
+import WriteRecommendation from "./WriteRecommendation/WriteRecommendation";
 
 export {
   ReadingBookShelf,
@@ -22,4 +23,5 @@ export {
   Icon,
   BookRecordsByDate,
   Calendar,
+  WriteRecommendation,
 };
