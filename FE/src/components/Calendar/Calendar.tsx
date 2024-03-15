@@ -133,7 +133,7 @@ function CalendarItem({
 
   return (
     <div
-      className={`h-10 w-10 rounded bg-page-${bgColor(pageSum)} border ${bgColor(pageSum) === "none" ? "border" : ""} ${selectedBookRecord && date === selectedBookRecord.date ? "border-2 border-red-500" : ""}`}
+      className={`h-10 w-10 rounded bg-page-${bgColor(pageSum)} border ${bgColor(pageSum) === "none" ? "border" : ""} ${selectedBookRecord && date === selectedBookRecord.date ? "border-2 border-emerald-600" : ""}`}
       onClick={() => handleSelectedDate(dailyBookRecord)}
     />
   );
