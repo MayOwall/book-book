@@ -64,6 +64,22 @@ export const putBookInfo = (
   localStorage.setItem(LOCAL_BOOK_INFOS_KEY, JSON.stringify(nextBookInfos));
 };
 
+export const putFinishedBookInfo = (isbn: string) => {
+  const bookInfos = getAllBookInfos();
+  const nextBookInfos = bookInfos.map((bookInfo) => {
+    if (bookInfo.isbn === isbn) {
+      bookInfo = {
+        ...bookInfo,
+        finishedDate: new Date().toDateString(),
+      };
+    }
+
+    return bookInfo;
+  });
+
+  localStorage.setItem(LOCAL_BOOK_INFOS_KEY, JSON.stringify(nextBookInfos));
+};
+
 // 모든 책 기록을 불러오는 API
 export const getAllBookRecords = (): bookRecord[] => {
   const bookRecords = localStorage.getItem(LOCAL_BOOK_RECORDS_KEY);

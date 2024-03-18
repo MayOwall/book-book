@@ -8,6 +8,7 @@ interface ReadingBookShelf {
 
 interface Button {
   children: ReactNode;
+  type?: "fill" | "line";
   onClick?: () => any;
 }
 

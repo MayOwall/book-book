@@ -11,7 +11,7 @@ export default function BookInfoCard({
   const style = {
     container: {
       small: "flex h-32 w-full gap-4 bg-white rounded-lg",
-      large: "w-full flex flex-col items-center gap-4 p-4",
+      large: "w-full flex flex-col items-center gap-4 p-8 bg-white rounded-xl",
     },
     image: {
       small: "aspect-book relative h-full rounded",
