@@ -22,7 +22,7 @@ interface bookInfo {
   author: string;
   publisher: string;
   readPages: number;
-  readDates: number;
+  readDates: string[];
   finishedDate: string | null;
 }
 

@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useModalStore } from "@/src/stores";
 import { BookInfoCard, Button } from "@/src/components";
+import { postBookInfo } from "@/src/api";
 import type { bookInfo } from "@/src/types";
 
 export default function CreateBookModalContent({
@@ -12,17 +13,9 @@ export default function CreateBookModalContent({
   const remoteModal = useModalStore((state) => state.remoteModal);
 
   const onSubmit = () => {
-    handleReadingbooks(bookinfo);
+    postBookInfo(bookinfo);
     remoteModal();
     router.push("/write");
-  };
-
-  const handleReadingbooks = (bookinfo: bookInfo) => {
-    const localReadingBooks = localStorage.getItem("readingbooks");
-    const readingBooks = localReadingBooks ? JSON.parse(localReadingBooks) : [];
-    const nextReadingBooks = [...readingBooks, bookinfo];
-
-    localStorage.setItem("readingbooks", JSON.stringify(nextReadingBooks));
   };
 
   return (

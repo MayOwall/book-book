@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
         author,
         publisher,
         readPages: 0,
-        readDates: 0,
+        readDates: [],
         finishedDate: null,
       };
       return bookInfo;

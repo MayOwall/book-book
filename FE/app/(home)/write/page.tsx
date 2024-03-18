@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
-  getReadingbooks,
+  getReadingbookInfos,
   getAllBookRecords,
   getSelectedBookRecords,
 } from "@/src/api";
@@ -25,7 +25,7 @@ export default function Write() {
 
   // 첫 랜더링시 모든 읽고 있는 책을 불러옴.
   useEffect(() => {
-    const readingbooks = getReadingbooks();
+    const readingbooks = getReadingbookInfos();
     setReadingbooks(() => readingbooks);
   }, []);
 

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/src/components";
-import { postBookmit } from "@/src/api";
+import { postBookmit, putBookInfo } from "@/src/api";
 
 export default function BookmitCreate() {
   const searchParams = useSearchParams();
@@ -16,6 +16,7 @@ export default function BookmitCreate() {
 
   const onSubmit = () => {
     postBookmit(title, isbn, startPage, endPage);
+    putBookInfo(isbn, startPage, endPage);
     router.push("/calendar");
   };
 
