@@ -21,6 +21,9 @@ interface bookInfo {
   image: string;
   author: string;
   publisher: string;
+  readPages: number;
+  readDates: number;
+  finishedDate: string | null;
 }
 
 interface BookInfoCard {
