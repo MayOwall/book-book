@@ -6,22 +6,109 @@ import type {
 } from "@/src/types";
 import { sortBookRecordsByDate } from "@/src/utils";
 
+const LOCAL_BOOK_INFOS_KEY = "book-infos";
+const LOCAL_BOOK_RECORDS_KEY = "book-records";
+
 export const getBookitems = async (keyword: string, page: number) => {
   const data = await fetch(`/api/searchbook?keyword=${keyword}&page=${page}`);
   const { total, bookitems } = await data.json();
   return { total, bookitems };
 };
 
+export const getBookInfo = (isbn: string) => {
+  const bookInfo = getAllBookInfos().find((v) => v.isbn === isbn);
+  return bookInfo || null;
+};
+
+export const getAllBookInfos = (): bookInfo[] => {
+  const bookInfos = localStorage.getItem(LOCAL_BOOK_INFOS_KEY);
+  if (!bookInfos) return [];
+  return JSON.parse(bookInfos);
+};
+
 // 모든 읽고 있는 책을 불러오는 API
-export const getReadingbooks = (): bookInfo[] => {
-  const readingbooks = localStorage.getItem("readingbooks");
-  if (!readingbooks) return [];
-  return JSON.parse(readingbooks);
+export const getReadingbookInfos = (): bookInfo[] => {
+  const readingbooks = getAllBookInfos().filter((v) => !v.finishedDate);
+  return readingbooks;
+};
+
+export const getFinishedBookInfos = (): bookInfo[] => {
+  const finishedBookInfos = getAllBookInfos().filter((v) => v.finishedDate);
+  return finishedBookInfos;
+};
+
+export const postBookInfo = (bookinfo: bookInfo) => {
+  const localReadingBooks = localStorage.getItem(LOCAL_BOOK_INFOS_KEY);
+  const readingBooks = localReadingBooks ? JSON.parse(localReadingBooks) : [];
+  const nextReadingBooks = [...readingBooks, bookinfo];
+
+  localStorage.setItem(LOCAL_BOOK_INFOS_KEY, JSON.stringify(nextReadingBooks));
+};
+
+export const putBookInfo = (
+  isbn: string,
+  startPage: number,
+  endPage: number,
+) => {
+  const bookInfos = getAllBookInfos();
+  const nextBookInfos = bookInfos.map((bookInfo) => {
+    if (bookInfo.isbn === isbn) {
+      const pages = endPage - startPage + 1;
+      const today = new Date().toDateString();
+      const lastDate = bookInfo.readDates[bookInfo.readDates.length - 1];
+      const nextReadDates =
+        today === lastDate
+          ? bookInfo.readDates
+          : [...bookInfo.readDates, today];
+
+      bookInfo = {
+        ...bookInfo,
+        readPages: bookInfo.readPages + pages,
+        readDates: nextReadDates,
+      };
+    }
+
+    return bookInfo;
+  });
+
+  localStorage.setItem(LOCAL_BOOK_INFOS_KEY, JSON.stringify(nextBookInfos));
+};
+
+export const putFinishedBookInfo = (isbn: string) => {
+  const bookInfos = getAllBookInfos();
+  const nextBookInfos = bookInfos.map((bookInfo) => {
+    if (bookInfo.isbn === isbn) {
+      bookInfo = {
+        ...bookInfo,
+        finishedDate: new Date().toDateString(),
+      };
+    }
+
+    return bookInfo;
+  });
+
+  localStorage.setItem(LOCAL_BOOK_INFOS_KEY, JSON.stringify(nextBookInfos));
+};
+
+export const putReStartBookInfo = (isbn: string) => {
+  const bookInfos = getAllBookInfos();
+  const nextBookInfos = bookInfos.map((bookInfo) => {
+    if (bookInfo.isbn === isbn) {
+      bookInfo = {
+        ...bookInfo,
+        finishedDate: null,
+      };
+    }
+
+    return bookInfo;
+  });
+
+  localStorage.setItem(LOCAL_BOOK_INFOS_KEY, JSON.stringify(nextBookInfos));
 };
 
 // 모든 책 기록을 불러오는 API
 export const getAllBookRecords = (): bookRecord[] => {
-  const bookRecords = localStorage.getItem("book-records");
+  const bookRecords = localStorage.getItem(LOCAL_BOOK_RECORDS_KEY);
   if (!bookRecords) return [];
   return JSON.parse(bookRecords);
 };
@@ -105,7 +192,7 @@ export const postBookmit = (
     ...localBookRecords,
     newBookRecord,
   ]);
-  localStorage.setItem("book-records", nextLocalBookRecords);
+  localStorage.setItem(LOCAL_BOOK_RECORDS_KEY, nextLocalBookRecords);
 };
 
 export const getIsTodayBookRecordExist = () => {

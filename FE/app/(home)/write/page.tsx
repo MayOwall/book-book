@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
-  getReadingbooks,
+  getReadingbookInfos,
   getAllBookRecords,
   getSelectedBookRecords,
 } from "@/src/api";
@@ -25,7 +25,7 @@ export default function Write() {
 
   // 첫 랜더링시 모든 읽고 있는 책을 불러옴.
   useEffect(() => {
-    const readingbooks = getReadingbooks();
+    const readingbooks = getReadingbookInfos();
     setReadingbooks(() => readingbooks);
   }, []);
 
@@ -60,16 +60,28 @@ export default function Write() {
         </Link>
       )}
       {selectedBook && (
-        <Link
-          href={{
-            pathname: `/write/record/create/${selectedBook.title}`,
-            query: {
-              bookInfo: JSON.stringify(selectedBook),
-            },
-          }}
-        >
-          <Button>새로운 독서 기록하기</Button>
-        </Link>
+        <div className="flex flex-col gap-2">
+          <Link
+            href={{
+              pathname: `/write/record/create/${selectedBook.title}`,
+              query: {
+                bookInfo: JSON.stringify(selectedBook),
+              },
+            }}
+          >
+            <Button>새로운 독서 기록하기</Button>
+          </Link>
+          <Link
+            href={{
+              pathname: "/finish-book",
+              query: {
+                bookInfo: JSON.stringify(selectedBook),
+              },
+            }}
+          >
+            <Button type="line">이 책을 다 읽었어요</Button>
+          </Link>
+        </div>
       )}
       {selectedBook && !!bookRecords.length && (
         <div className="w-full overflow-auto rounded-lg bg-white p-4">

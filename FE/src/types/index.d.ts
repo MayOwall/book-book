@@ -8,6 +8,7 @@ interface ReadingBookShelf {
 
 interface Button {
   children: ReactNode;
+  type?: "fill" | "line";
   onClick?: () => any;
 }
 
@@ -21,6 +22,9 @@ interface bookInfo {
   image: string;
   author: string;
   publisher: string;
+  readPages: number;
+  readDates: string[];
+  finishedDate: string | null;
 }
 
 interface BookInfoCard {
@@ -63,7 +67,7 @@ interface BookmitList {
 }
 
 interface Icon {
-  type: "calendar" | "list" | "write" | "arrowdown";
+  type: "calendar" | "list" | "write" | "arrowdown" | "book-storage";
   status?: "default" | "selected";
   alt: string;
   size?: number;

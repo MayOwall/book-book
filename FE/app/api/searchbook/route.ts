@@ -23,7 +23,17 @@ export async function GET(request: NextRequest) {
   const { total, items } = await res.json();
   const bookitems: bookInfo = items.map(
     ({ title, image, author, publisher, isbn }: bookInfo) => {
-      return { title, image, author, publisher, isbn };
+      const bookInfo: bookInfo = {
+        isbn,
+        title,
+        image,
+        author,
+        publisher,
+        readPages: 0,
+        readDates: [],
+        finishedDate: null,
+      };
+      return bookInfo;
     },
   );
 
