@@ -54,6 +54,22 @@ export default function BottomBar() {
             </span>
           </li>
         </Link>
+        <Link href="/book-storage" className="w-full">
+          <li className={ITEM_STYLE}>
+            <Icon
+              type="book-storage"
+              status={currentPath === "book-storage" ? "selected" : "default"}
+              alt="책 보관소"
+            />
+            <span
+              className={
+                currentPath === "book-storage" ? SELECTED_FONT_STYLE : ""
+              }
+            >
+              책 보관소
+            </span>
+          </li>
+        </Link>
       </ul>
     </nav>
   );
@@ -63,5 +79,6 @@ const getCurrentPath = (path: string) => {
   if (path.match(/^\/calendar/)) return "calendar";
   if (path.match(/^\/list/)) return "list";
   if (path.match(/^\/write/)) return "write";
+  if (path.match(/^\/book-storage/)) return "book-storage";
   return "calendar";
 };

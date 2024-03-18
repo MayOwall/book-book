@@ -67,7 +67,7 @@ interface BookmitList {
 }
 
 interface Icon {
-  type: "calendar" | "list" | "write" | "arrowdown";
+  type: "calendar" | "list" | "write" | "arrowdown" | "book-storage";
   status?: "default" | "selected";
   alt: string;
   size?: number;
