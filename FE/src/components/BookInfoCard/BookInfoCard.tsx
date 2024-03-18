@@ -19,7 +19,7 @@ export default function BookInfoCard({
     },
     textbox: {
       small:
-        "flex w-full flex-col justify-center gap-2 overflow-hidden text-neutral-800",
+        "flex w-full flex-col justify-center gap-2 overflow-hidden text-neutral-800 pr-4",
       large:
         "flex w-full flex-col items-center justify-center gap-2 text-center overflow-hidden",
     },
@@ -37,7 +37,11 @@ export default function BookInfoCard({
           alt={title}
           sizes="100px"
           fill
-          style={{ objectFit: "fill" }}
+          style={{
+            objectFit: "fill",
+            borderTopLeftRadius: "0.5rem",
+            borderBottomLeftRadius: "0.5rem",
+          }}
         />
       </div>
       <div className={style.textbox[type]}>

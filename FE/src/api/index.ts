@@ -15,6 +15,11 @@ export const getBookitems = async (keyword: string, page: number) => {
   return { total, bookitems };
 };
 
+export const getBookInfo = (isbn: string) => {
+  const bookInfo = getAllBookInfos().find((v) => v.isbn === isbn);
+  return bookInfo || null;
+};
+
 export const getAllBookInfos = (): bookInfo[] => {
   const bookInfos = localStorage.getItem(LOCAL_BOOK_INFOS_KEY);
   if (!bookInfos) return [];
@@ -25,6 +30,11 @@ export const getAllBookInfos = (): bookInfo[] => {
 export const getReadingbookInfos = (): bookInfo[] => {
   const readingbooks = getAllBookInfos().filter((v) => !v.finishedDate);
   return readingbooks;
+};
+
+export const getFinishedBookInfos = (): bookInfo[] => {
+  const finishedBookInfos = getAllBookInfos().filter((v) => v.finishedDate);
+  return finishedBookInfos;
 };
 
 export const postBookInfo = (bookinfo: bookInfo) => {
@@ -71,6 +81,22 @@ export const putFinishedBookInfo = (isbn: string) => {
       bookInfo = {
         ...bookInfo,
         finishedDate: new Date().toDateString(),
+      };
+    }
+
+    return bookInfo;
+  });
+
+  localStorage.setItem(LOCAL_BOOK_INFOS_KEY, JSON.stringify(nextBookInfos));
+};
+
+export const putReStartBookInfo = (isbn: string) => {
+  const bookInfos = getAllBookInfos();
+  const nextBookInfos = bookInfos.map((bookInfo) => {
+    if (bookInfo.isbn === isbn) {
+      bookInfo = {
+        ...bookInfo,
+        finishedDate: null,
       };
     }
 
