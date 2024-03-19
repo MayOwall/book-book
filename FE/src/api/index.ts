@@ -39,7 +39,7 @@ export const getFinishedBookInfos = (): bookInfo[] => {
 
 export const postBookInfo = async (bookinfo: bookInfo) => {
   try {
-    const data = await fetch("/api/book/create", {
+    const data = await fetch("/api/books/create", {
       method: "POST",
       body: JSON.stringify(bookinfo),
       headers: {
