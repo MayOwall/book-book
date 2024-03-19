@@ -37,7 +37,21 @@ export const getFinishedBookInfos = (): bookInfo[] => {
   return finishedBookInfos;
 };
 
-export const postBookInfo = (bookinfo: bookInfo) => {
+export const postBookInfo = async (bookinfo: bookInfo) => {
+  try {
+    const data = await fetch("/api/book/create", {
+      method: "POST",
+      body: JSON.stringify(bookinfo),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const { status } = await data.json();
+    if (status !== "success") throw new Error();
+  } catch (e) {
+    console.log(e);
+  }
+
   const localReadingBooks = localStorage.getItem(LOCAL_BOOK_INFOS_KEY);
   const readingBooks = localReadingBooks ? JSON.parse(localReadingBooks) : [];
   const nextReadingBooks = [...readingBooks, bookinfo];
