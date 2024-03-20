@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
         publisher,
         readPages: 0,
         readDates: [],
-        finishedDate: null,
+        finishedDate: "",
       };
       return bookInfo;
     },
