@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { SEARCH_BOOKITEMS_OFFSET, FIRST_PAGE } from "@/src/constants";
-import { bookInfo } from "@/src/types";
 
 const naverClientId = process.env.NAVER_CLIENT_ID!;
 const naverClientSecret = process.env.NAVER_CLIENT_SECRET!;
@@ -21,21 +20,21 @@ export async function GET(request: NextRequest) {
   );
 
   const { total, items } = await res.json();
-  const bookitems: bookInfo = items.map(
-    ({ title, image, author, publisher, isbn }: bookInfo) => {
-      const bookInfo: bookInfo = {
+  const books = items.map(({ title, image, author, publisher, isbn }: any) => {
+    const book: book = {
+      id: isbn,
+      bookInfo: {
         isbn,
         title,
-        image,
         author,
         publisher,
-        readPages: 0,
-        readDates: [],
-        finishedDate: "",
-      };
-      return bookInfo;
-    },
-  );
+        imageURL: image,
+      },
+      isFinished: false,
+      readingRecords: [],
+    };
+    return book;
+  });
 
-  return NextResponse.json({ total, bookitems });
+  return NextResponse.json({ status: "success", data: { total, books } });
 }

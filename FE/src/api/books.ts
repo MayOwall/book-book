@@ -1,4 +1,19 @@
-import type { bookInfo } from "@/src/types";
+// 검색어를 바탕으로 네이버의 책 검색 결과를 가져오는 API
+export async function getSearchBooks(keyword: string, page: number) {
+  try {
+    return await getSearchBooksFromNaverAPI();
+  } catch (e) {
+    createError(e, "getSearchBooks");
+    return { total: 0, books: [] };
+  }
+
+  async function getSearchBooksFromNaverAPI() {
+    const res = await fetch(`/api/searchbook?keyword=${keyword}&page=${page}`);
+    const { status, data } = await res.json();
+    if (status !== "success") throw new Error();
+    return data as { total: number; books: book[] };
+  }
+}
 
 // 하나의 책 정보를 가져오는 API
 export async function getBook(id: string): Promise<bookInfo | null> {
@@ -52,7 +67,7 @@ export async function getFinishedBooks() {
 }
 
 // 새 책을 생성하는 API
-export async function postBook(bookData: bookInfo): Promise<void> {
+export async function postBook(book: book): Promise<void> {
   try {
     await checkBookExistInDB();
     await postNewBookToDB();
@@ -61,7 +76,7 @@ export async function postBook(bookData: bookInfo): Promise<void> {
   }
 
   async function checkBookExistInDB() {
-    const isBookExist = await getBook(bookData.isbn);
+    const isBookExist = await getBook(book.id);
     if (isBookExist) {
       throw new Error("❌ Book is Alreay Exist");
     }
@@ -69,17 +84,32 @@ export async function postBook(bookData: bookInfo): Promise<void> {
   async function postNewBookToDB() {
     const options = {
       method: "POST",
-      body: JSON.stringify(bookData),
+      body: JSON.stringify(book),
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
     };
-
     const res = await fetch("/api/book", options);
     const { status } = await res.json();
     if (status !== "success") throw new Error();
   }
 }
+
+// TODO: 책 정보를 업데이트하는 API
+
+// TODO: 다 읽은 책 처리하는 API
+export async function putFinishedDate(isbn: string, finishedDate: string) {
+  try {
+    await fetch("/api/book/finished-date", {
+      method: "PUT",
+      body: JSON.stringify({ isbn, finishedDate }),
+    });
+  } catch (e) {
+    createError(e, "putFinishedDate");
+  }
+}
+
+// TODO: 다 읽은 책을 다시 읽도록 처리하는 API
 
 function createError(e: unknown, place: string) {
   console.log(`❌ Error from ${place}`);

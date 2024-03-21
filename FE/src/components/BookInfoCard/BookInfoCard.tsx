@@ -1,12 +1,11 @@
 import Image from "next/image";
-import type { BookInfoCard } from "@/src/types";
 
 export default function BookInfoCard({
-  bookinfo,
+  bookInfo,
   type = "small",
   onClick,
 }: BookInfoCard) {
-  const { title, image, author, publisher } = bookinfo;
+  const { title, author, publisher, imageURL } = bookInfo;
 
   const style = {
     container: {
@@ -33,7 +32,7 @@ export default function BookInfoCard({
     <div className={style.container[type]} onClick={onClick}>
       <div className={style.image[type]}>
         <Image
-          src={image}
+          src={imageURL}
           alt={title}
           sizes="100px"
           fill
