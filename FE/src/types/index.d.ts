@@ -4,7 +4,6 @@ interface book {
   id: string;
   bookInfo: bookInfo;
   isFinished: boolean;
-  readingRecords: readingRecord[];
 }
 
 interface bookInfo {
@@ -16,8 +15,11 @@ interface bookInfo {
 }
 
 interface readingRecord {
+  id: string;
   date: Date;
-  readingRecords: { startPage: number; endPage: number }[];
+  title: string;
+  startPage: number;
+  endPage: number;
 }
 
 interface Icon {
@@ -32,4 +34,14 @@ interface BookInfoCard {
   bookInfo: bookInfo;
   type?: "small" | "large";
   onClick?: () => void;
+}
+
+interface ReadingBookShelf {
+  readingBooks: book[];
+  selectedBook: book | null;
+  onClick: (book: book) => void;
+}
+
+interface DailyReadingRecords {
+  readingRecords: readingRecord[];
 }

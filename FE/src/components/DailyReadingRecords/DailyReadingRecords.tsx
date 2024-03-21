@@ -1,6 +1,6 @@
 import { sortBookRecordsByDate, getFormalizedDate } from "@/src/utils";
 
-export default function DailyReadingRecord({
+export default function DailyReadingRecords({
   readingRecords,
 }: DailyReadingRecords) {
   const dailyReadingRecords = sortBookRecordsByDate(readingRecords);
