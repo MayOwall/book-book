@@ -50,34 +50,31 @@ export async function getMonthRecords(year: number, month: number) {
 // TODO: 하나의 날짜의 전체 독서 기록을 가져오는 API
 
 // ✅ 독서 기록을 생성하는 API
-export async function postBookRecord(
-  title: string,
-  isbn: string,
+export async function postReadingRecord(
+  id: string,
   startPage: number,
   endPage: number,
 ): Promise<void> {
   try {
     const body = createBody();
-    await postBookRecordToDB(body);
+    await postReadingRecordToDB(body);
   } catch (e) {
     createError(e, "postBookRecord");
   }
 
   function createBody() {
-    const date = new Date();
-    const bookInfo = { title, isbn };
-    return { bookInfo, startPage, endPage, date };
+    return { startPage, endPage };
   }
-  async function postBookRecordToDB(bookRecord: unknown) {
+  async function postReadingRecordToDB(readingRecord: unknown) {
     const options = {
       method: "POST",
-      body: JSON.stringify(bookRecord),
+      body: JSON.stringify(readingRecord),
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
     };
 
-    const res = await fetch(`/api/book-records`, options);
+    const res = await fetch(`/api/reading-records?id=${id}`, options);
     const { status } = await res.json();
     if (status !== "success") throw new Error();
   }

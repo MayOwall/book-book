@@ -63,7 +63,7 @@ export default function Write() {
             href={{
               pathname: `/write/record/create/${selectedBook.bookInfo.title}`,
               query: {
-                bookInfo: JSON.stringify(selectedBook),
+                book: JSON.stringify(selectedBook),
               },
             }}
           >

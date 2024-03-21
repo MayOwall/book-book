@@ -31,7 +31,6 @@ export async function GET(request: NextRequest) {
         imageURL: image,
       },
       isFinished: false,
-      readingRecords: [],
     };
     return book;
   });

@@ -6,8 +6,8 @@ import {
   getFinishedBooks,
 } from "./books";
 import {
-  getBookRecords,
-  postBookRecord,
+  getBookReadingRecords,
+  postReadingRecord,
   getMonthRecords,
   getAllBookRecords,
   getIsTodayBookRecordExist,
@@ -18,8 +18,8 @@ export {
   postBook,
   getReadingBooks,
   getFinishedBooks,
-  getBookRecords,
-  postBookRecord,
+  getBookReadingRecords,
+  postReadingRecord,
   getMonthRecords,
   getAllBookRecords,
   getIsTodayBookRecordExist,

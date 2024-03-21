@@ -45,7 +45,7 @@ export async function getReadingBooks() {
     const res = await fetch("/api/reading-books");
     const { status, data } = await res.json();
     if (status !== "success") throw new Error();
-    return data as bookInfo[];
+    return data as book[];
   }
 }
 
