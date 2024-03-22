@@ -2,13 +2,15 @@ declare module "@/src/types";
 
 interface book {
   id: string;
+  userId: string;
   bookInfo: bookInfo;
   isFinished: boolean;
+  finishedDate: Date;
 }
 
 interface bookInfo {
-  isbn: string;
   title: string;
+  isbn: string;
   author: string;
   publisher: string;
   imageURL: string;
@@ -16,6 +18,8 @@ interface bookInfo {
 
 interface readingRecord {
   id: string;
+  userId: string;
+  bookId: string;
   date: Date;
   title: string;
   startPage: number;
