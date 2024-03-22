@@ -1,4 +1,4 @@
-# 📚 BookTracker
+# 📚 Book Tracker
 
 👉 [북트랙커 서비스 바로가기](https://bookmit.vercel.app)
 
