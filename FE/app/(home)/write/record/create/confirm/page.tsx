@@ -3,20 +3,19 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/src/components";
-import { postBookmit, putBookInfo } from "@/src/api";
+import { postReadingRecord } from "@/src/api";
 
 export default function BookmitCreate() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const bookId = searchParams.get("bookId")!;
   const title = searchParams.get("title")!;
-  const isbn = searchParams.get("isbn")!;
   const startPage = Number(searchParams.get("startPage")!);
   const endPage = Number(searchParams.get("endPage")!);
 
-  const onSubmit = () => {
-    postBookmit(title, isbn, startPage, endPage);
-    putBookInfo(isbn, startPage, endPage);
+  const onSubmit = async () => {
+    await postReadingRecord(bookId, title, startPage, endPage);
     router.push("/calendar");
   };
 

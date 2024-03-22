@@ -1,8 +1,16 @@
 "use client";
 
-import type { Button } from "@/src/types";
+import { ReactNode } from "react";
 
-export default function Button({ children, type = "fill", onClick }: Button) {
+export default function Button({
+  children,
+  type = "fill",
+  onClick,
+}: {
+  children: ReactNode;
+  type?: "fill" | "line";
+  onClick?: () => any;
+}) {
   const styleByType =
     type === "fill"
       ? "bg-main text-white"

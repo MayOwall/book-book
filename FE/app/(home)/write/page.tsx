@@ -2,55 +2,53 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { getBookReadingRecords, getReadingBooks } from "@/src/api";
 import {
-  getReadingbookInfos,
-  getAllBookRecords,
-  getSelectedBookRecords,
-} from "@/src/api";
-import { ReadingBookShelf, Button, BookRecordsByDate } from "@/src/components";
-import type { bookInfo, bookRecord } from "@/src/types";
+  ReadingBookShelf,
+  Button,
+  DailyReadingRecords,
+} from "@/src/components";
 
 export default function Write() {
-  const [readingbooks, setReadingbooks] = useState<bookInfo[]>([]);
-  const [bookRecords, setBookRecords] = useState<bookRecord[]>([]);
-  const [selectedBook, setSelectedBook] = useState<bookInfo | null>(null);
+  const [readingbooks, setReadingbooks] = useState<book[]>([]);
+  const [bookReadingRecords, setBookReadingRecords] = useState<readingRecord[]>(
+    [],
+  );
+  const [selectedBook, setSelectedBook] = useState<book | null>(null);
 
   // 책 변경에 대한 값 반영.
-  const handleSelectedBook = (nextSelectedBook: bookInfo) => {
-    if (!selectedBook || nextSelectedBook.isbn !== selectedBook.isbn) {
+  const handleSelectedBook = (nextSelectedBook: book) => {
+    if (!selectedBook || nextSelectedBook.id !== selectedBook.id) {
       return setSelectedBook(() => nextSelectedBook);
     }
     setSelectedBook(null);
   };
 
+  const handleBookReadingRecords = async () => {
+    if (!selectedBook) return setBookReadingRecords(() => []);
+
+    const bookReadingRecords = await getBookReadingRecords(selectedBook.id);
+    setBookReadingRecords(() => bookReadingRecords);
+  };
+
   // 첫 랜더링시 모든 읽고 있는 책을 불러옴.
   useEffect(() => {
-    const readingbooks = getReadingbookInfos();
-    setReadingbooks(() => readingbooks);
-  }, []);
-
-  // 첫 랜더링시 모든 책 기록을 불러옴.
-  useEffect(() => {
-    const allBookRecords = getAllBookRecords();
-    setBookRecords(() => allBookRecords);
+    (async function () {
+      const readingBooks = await getReadingBooks();
+      setReadingbooks(() => readingBooks);
+    })();
   }, []);
 
   // 선택한 책이 변경될 때 마다 해당 책의 기록을 불러옴.
   useEffect(() => {
-    if (!selectedBook) {
-      const nextBookRecords = getAllBookRecords();
-      return setBookRecords(() => nextBookRecords);
-    }
-
-    const nextBookRecords = getSelectedBookRecords(selectedBook.isbn);
-    setBookRecords(() => nextBookRecords);
+    handleBookReadingRecords();
   }, [selectedBook]);
 
   return (
     <main className="flex h-full w-full flex-col gap-4">
       <NewBookButton isReadingbookExist={!!readingbooks.length} />
       <ReadingBookShelf
-        readingbooks={readingbooks}
+        readingBooks={readingbooks}
         selectedBook={selectedBook}
         onClick={handleSelectedBook}
       />
@@ -63,9 +61,9 @@ export default function Write() {
         <div className="flex flex-col gap-2">
           <Link
             href={{
-              pathname: `/write/record/create/${selectedBook.title}`,
+              pathname: `/write/record/create/${selectedBook.bookInfo.title}`,
               query: {
-                bookInfo: JSON.stringify(selectedBook),
+                book: JSON.stringify(selectedBook),
               },
             }}
           >
@@ -75,7 +73,7 @@ export default function Write() {
             href={{
               pathname: "/finish-book",
               query: {
-                bookInfo: JSON.stringify(selectedBook),
+                book: JSON.stringify(selectedBook),
               },
             }}
           >
@@ -83,12 +81,12 @@ export default function Write() {
           </Link>
         </div>
       )}
-      {selectedBook && !!bookRecords.length && (
+      {selectedBook && !!bookReadingRecords.length && (
         <div className="w-full overflow-auto rounded-lg bg-white p-4">
-          <BookRecordsByDate bookRecords={bookRecords} />
+          <DailyReadingRecords readingRecords={bookReadingRecords} />
         </div>
       )}
-      {selectedBook && !bookRecords.length && (
+      {selectedBook && !bookReadingRecords.length && (
         <div className="text-center text-neutral-300">작성한 기록이 없어요</div>
       )}
       {!!readingbooks.length && !selectedBook && (

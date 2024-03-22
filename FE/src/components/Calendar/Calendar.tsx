@@ -1,38 +1,49 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getCalendarBookRecords } from "@/src/api";
-import { Icon, BookRecordsByDate } from "@/src/components";
+import { getCalendar, getDateReadingRecords } from "@/src/api";
+import { DailyReadingRecords } from "@/src/components";
 import { DAYS } from "@/src/constants";
-import type {
-  dailyBookRecord,
-  calendarBookRecord,
-  weeklyBookRecord,
-} from "@/src/types";
-import { getFormalizedDate } from "@/src/utils";
+
+interface CalendarItem {
+  date: Date;
+  readingRecords: readingRecord[];
+}
 
 export default function Calendar() {
-  const today = new Date();
-  const [yearMonth, setYearMonth] = useState({
-    year: today.getFullYear(),
-    month: today.getMonth(),
-  });
-  const [selectedBookRecord, setSelectedBookRecord] =
-    useState<dailyBookRecord | null>(null);
-  const [calendarBookRecords, setCalendarBookRecords] =
-    useState<calendarBookRecord>([]);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState(new Date().getMonth());
+  const [calendar, setCalendar] = useState<CalendarItem[]>([]);
+  const [selectedDate, setSelectedDate] = useState<number | null>(null);
+  const [selectedDateReadingRecords, setSelectedDateReadingRecords] = useState<
+    readingRecord[] | null
+  >(null);
 
-  const handleSelectedDate = (dailyBookRecord: dailyBookRecord) => {
-    setSelectedBookRecord((v) => {
-      if (!v) return dailyBookRecord;
-      return v.date === dailyBookRecord.date ? null : dailyBookRecord;
+  const handleSelectedDate = (date: number | null) => {
+    setSelectedDate((v) => {
+      if (!v || v !== date) return date;
+      return null;
     });
   };
 
+  const handleSelectedDateReadingRecords = async () => {
+    if (!selectedDate) {
+      return;
+    }
+    const next = await getDateReadingRecords(year, month, selectedDate);
+    setSelectedDateReadingRecords(() => next);
+  };
+
   useEffect(() => {
-    const { year, month } = yearMonth;
-    const calendarBookRecords = getCalendarBookRecords(year, month);
-    setCalendarBookRecords(() => calendarBookRecords);
-  }, [yearMonth]);
+    (async function () {
+      const calendar = await getCalendar(year, month);
+      setCalendar(() => calendar);
+    })();
+  }, []);
+
+  useEffect(() => {
+    setSelectedDateReadingRecords(() => []);
+    handleSelectedDateReadingRecords();
+  }, [selectedDate]);
 
   return (
     <section className="w-full">
@@ -41,9 +52,8 @@ export default function Calendar() {
         <div className="flex w-full justify-end">
           <button className="flex items-center gap-2 rounded border bg-white p-1 px-2 text-neutral-500">
             <span>
-              {yearMonth.year}년 {yearMonth.month + 1}월
+              {year}년 {month + 1}월
             </span>
-            <Icon type="arrowdown" alt="달력 날짜 변경하기" size={10} />
           </button>
         </div>
 
@@ -58,23 +68,29 @@ export default function Calendar() {
           ))}
         </div>
 
-        <div className="mb-4 flex flex-col justify-evenly gap-2">
-          {calendarBookRecords.map((weeklyBookRecord, i) => (
-            <WeekItem
-              key={`weeklyBookRecord${i}`}
-              weeklyBookRecord={weeklyBookRecord}
-              selectedBookRecord={selectedBookRecord}
-              handleSelectedDate={handleSelectedDate}
-            />
-          ))}
-        </div>
+        {!!calendar.length && (
+          <div className="flex w-full flex-wrap gap-1.5">
+            <FirstWeekEmptySpace spaceCount={calendar[0].date.getDay()} />
+            {calendar.map((item, i) => (
+              <CalendarItem
+                key={i}
+                item={item}
+                selectedDate={selectedDate}
+                handleSelectedDate={handleSelectedDate}
+              />
+            ))}
+          </div>
+        )}
 
-        {!!selectedBookRecord &&
-          (selectedBookRecord.bookRecords.length ? (
-            <BookRecordsByDate bookRecords={selectedBookRecord.bookRecords} />
+        {!!selectedDate &&
+          !!selectedDateReadingRecords &&
+          (selectedDateReadingRecords.length ? (
+            <DailyReadingRecords readingRecords={selectedDateReadingRecords} />
           ) : (
             <div className="flex w-full flex-col text-center text-sm text-neutral-300">
-              <span>{getFormalizedDate(selectedBookRecord.date)} 에는</span>
+              <span>
+                {year}년 {month}월 {selectedDate}일에는
+              </span>
               <span>기록한 책이 없어요</span>
             </div>
           ))}
@@ -83,47 +99,29 @@ export default function Calendar() {
   );
 }
 
-function WeekItem({
-  weeklyBookRecord,
-  selectedBookRecord,
-  handleSelectedDate,
-}: {
-  weeklyBookRecord: weeklyBookRecord;
-  selectedBookRecord: dailyBookRecord | null;
-  handleSelectedDate: (dailyBookRecord: dailyBookRecord) => void;
-}) {
-  return (
-    <div className="flex w-full justify-around">
-      {weeklyBookRecord.map((bookRecord, i) =>
-        bookRecord ? (
-          <CalendarItem
-            key={bookRecord.date}
-            dailyBookRecord={bookRecord}
-            selectedBookRecord={selectedBookRecord}
-            handleSelectedDate={handleSelectedDate}
-          />
-        ) : (
-          <div key={`calendarItem${i}`} className="h-10 w-10 opacity-0" />
-        ),
-      )}
-    </div>
-  );
+function FirstWeekEmptySpace({ spaceCount }: { spaceCount: number }) {
+  return Array.from({ length: spaceCount }, () => null).map((_, i) => (
+    <div key={i} className="aspect-square w-[calc((100%-36px)/7)]" />
+  ));
 }
 
 function CalendarItem({
-  dailyBookRecord,
-  selectedBookRecord,
+  item,
+  selectedDate,
   handleSelectedDate,
 }: {
-  dailyBookRecord: dailyBookRecord;
-  selectedBookRecord: dailyBookRecord | null;
-  handleSelectedDate: (dailyBookRecord: dailyBookRecord) => void;
+  item: CalendarItem;
+  selectedDate: number | null;
+  handleSelectedDate: (date: number | null) => void;
 }) {
-  const { date, bookRecords } = dailyBookRecord;
-  const pageSum = bookRecords.reduce(
-    (acc, cur) => acc + cur.endPage - cur.startPage,
-    0,
-  );
+  const { readingRecords } = item;
+  const date = item.date.getDate();
+  const pageSum = !readingRecords.length
+    ? 0
+    : readingRecords.reduce((acc, cur) => {
+        const next = acc + cur.endPage - cur.startPage;
+        return next;
+      }, 0);
   const bgColor = (pages: number) => {
     if (!pages) return "none";
     if (0 < pages && pages <= 10) return "little";
@@ -133,8 +131,12 @@ function CalendarItem({
 
   return (
     <div
-      className={`h-10 w-10 rounded bg-page-${bgColor(pageSum)} border ${bgColor(pageSum) === "none" ? "border" : ""} ${selectedBookRecord && date === selectedBookRecord.date ? "border-2 border-emerald-600" : ""}`}
-      onClick={() => handleSelectedDate(dailyBookRecord)}
-    />
+      className={`relative aspect-square w-[calc((100%-36px)/7)] rounded bg-page-${bgColor(pageSum)} border ${bgColor(pageSum) === "none" ? "border" : ""} ${selectedDate && date === selectedDate ? "border-2 border-emerald-600" : ""}`}
+      onClick={() => handleSelectedDate(date)}
+    >
+      <span className="absolute left-1 top-1 text-xs font-bold text-white">
+        {date}
+      </span>
+    </div>
   );
 }

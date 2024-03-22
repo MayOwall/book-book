@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import type { ReactNode } from "react";
-import type { useModalState } from "@/src/types";
+
+interface useModalState {
+  content: null | ReactNode;
+  createModal: (nextContent: ReactNode) => void;
+  remoteModal: () => void;
+}
 
 export const useModalStore = create<useModalState>((set) => ({
   content: null,

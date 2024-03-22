@@ -3,33 +3,44 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getFinishedBookInfos } from "@/src/api";
-import { bookInfo } from "@/src/types";
+import { getFinishedBooks } from "@/src/api";
 
 export default function BookStorage() {
-  const [finishedBookInfos, setFinishedBookInfos] = useState<bookInfo[]>([]);
+  const [finishedBooks, setFinishedBooks] = useState<book[]>([]);
 
   useEffect(() => {
-    setFinishedBookInfos(() => getFinishedBookInfos());
+    (async function () {
+      const finishedBooks = await getFinishedBooks();
+      setFinishedBooks(() => finishedBooks);
+    })();
   }, []);
 
   return (
     <main>
       <h1 className="mb-2 font-bold text-neutral-300">책 보관소</h1>
       <section className="flex max-h-full w-full flex-wrap gap-4 overflow-auto rounded-xl bg-white p-4">
-        {finishedBookInfos.map((bookInfo) => (
-          <FinishedBook key={bookInfo.isbn} bookInfo={bookInfo} />
+        {finishedBooks.map((book) => (
+          <FinishedBook key={book.id} id={book.id} bookInfo={book.bookInfo} />
         ))}
+        {!finishedBooks.length && (
+          <span className="w-full text-center text-sm leading-relaxed text-neutral-300">
+            다 읽은 책이 없어요
+            <br />
+            <Link href="/write" className="text-emerald-400 underline">
+              책을 읽으러 가 볼까요?
+            </Link>
+          </span>
+        )}
       </section>
     </main>
   );
 }
 
-function FinishedBook({ bookInfo }: { bookInfo: bookInfo }) {
+function FinishedBook({ id, bookInfo }: { id: string; bookInfo: bookInfo }) {
   return (
     <div className="relative aspect-book w-[calc((100%-2rem)/3)] rounded border">
-      <Link href={`/book-storage/${bookInfo.title}?isbn=${bookInfo.isbn}`}>
-        <Image src={bookInfo.image} alt={bookInfo.title} fill />
+      <Link href={`/book-storage/${bookInfo.title}?id=${id}`}>
+        <Image src={bookInfo.imageURL} alt={bookInfo.title} fill />
       </Link>
     </div>
   );

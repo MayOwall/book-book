@@ -1,69 +1,29 @@
-import { ReactNode } from "react";
+declare module "@/src/types";
 
-interface ReadingBookShelf {
-  readingbooks: bookinfo[];
-  selectedBook: bookinfo | null;
-  onClick: (bookinfo: bookinfo) => void;
-}
-
-interface Button {
-  children: ReactNode;
-  type?: "fill" | "line";
-  onClick?: () => any;
-}
-
-interface BookSearchbar {
-  handleSubmit: (keyword: string) => void;
+interface book {
+  id: string;
+  userId: string;
+  bookInfo: bookInfo;
+  isFinished: boolean;
+  finishedDate: Date | null;
 }
 
 interface bookInfo {
-  isbn: string;
   title: string;
-  image: string;
+  isbn: string;
   author: string;
   publisher: string;
-  readPages: number;
-  readDates: string[];
-  finishedDate: string | null;
+  imageURL: string;
 }
 
-interface BookInfoCard {
-  bookinfo: bookinfo;
-  type?: "small" | "large";
-  onClick?: () => void;
-}
-
-type bottomButtonStatus = "nonDisplay" | "more" | "nobooks" | "end";
-
-interface Modal {
-  children: ReactNode;
-}
-
-interface useModalState {
-  content: null | ReactNode;
-  createModal: (nextContent: ReactNode) => void;
-  remoteModal: () => void;
-}
-
-interface bookmitInfo {
-  _id: string;
-  bookinfo: {
-    title: string;
-    isbn: string;
-  };
+interface readingRecord {
+  id: string;
+  userId: string;
+  bookId: string;
+  date: Date;
+  title: string;
   startPage: number;
   endPage: number;
-}
-
-interface BookmitCard extends bookmitInfo {}
-
-interface BookmitsByDate {
-  date: string;
-  bookmits: bookmitInfo[];
-}
-
-interface BookmitList {
-  bookmits: BookmitsByDate[];
 }
 
 interface Icon {
@@ -74,21 +34,18 @@ interface Icon {
   style?: object;
 }
 
-interface bookRecord {
-  _id: string;
-  date: string;
-  bookInfo: {
-    isbn: string;
-    title: string;
-  };
-  startPage: number;
-  endPage: number;
+interface BookInfoCard {
+  bookInfo: bookInfo;
+  type?: "small" | "large";
+  onClick?: () => void;
 }
 
-interface dailyBookRecord {
-  date: string;
-  bookRecords: bookRecord[];
+interface ReadingBookShelf {
+  readingBooks: book[];
+  selectedBook: book | null;
+  onClick: (book: book) => void;
 }
 
-type weeklyBookRecord = (dailyBookRecord | null)[];
-type calendarBookRecord = weeklyBookRecord[];
+interface DailyReadingRecords {
+  readingRecords: readingRecord[];
+}

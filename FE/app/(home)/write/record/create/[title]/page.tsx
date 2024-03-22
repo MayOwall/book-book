@@ -9,7 +9,7 @@ import { bookInfo } from "@/src/types";
 export default function CreateRecord() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { title, isbn }: bookInfo = JSON.parse(searchParams.get("bookInfo")!);
+  const { id, bookInfo }: book = JSON.parse(searchParams.get("book")!);
   const [startPage, setStartPage] = useState<number | undefined>(undefined);
   const [endPage, setEndPage] = useState<number | undefined>(undefined);
 
@@ -50,7 +50,7 @@ export default function CreateRecord() {
     }
 
     router.push(
-      `/write/record/create/confirm?title=${title}&isbn=${isbn}&startPage=${startPage}&endPage=${endPage}`,
+      `/write/record/create/confirm?title=${bookInfo.title}&bookId=${id}&startPage=${startPage}&endPage=${endPage}`,
     );
   };
 

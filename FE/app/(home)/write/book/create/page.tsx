@@ -2,60 +2,42 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { getBookitems } from "@/src/api";
+import { getSearchBooks } from "@/src/api";
 import {
   BookSearchbar,
   BookInfoCard,
   CraeteBookModalContent,
 } from "@/src/components";
 import { SEARCH_BOOKITEMS_OFFSET } from "@/src/constants";
-import type { bookInfo, bottomButtonStatus } from "@/src/types";
 import { useModalStore } from "@/src/stores";
 
 export default function CreateNewBook() {
   const searchPage = useRef(1);
   const searchword = useRef("");
-  const [bookitems, setBookitems] = useState<bookInfo[]>([]);
-  const [bottomButtonStatus, setBottomButtonStatus] =
-    useState<bottomButtonStatus>("nonDisplay");
+  const [books, setBooks] = useState<book[]>([]);
+  const [bottomButtonStatus, setBottomButtonStatus] = useState("nonDisplay");
+  const craeteModal = useModalStore((state) => state.createModal);
 
   // 검색어가 제출되었을 때의 동작
   const onSearchbarSubmit = async (keyword: string) => {
-    const { total, bookitems } = await getBookitems(
-      keyword,
-      searchPage.current,
-    );
-
+    const { total, books } = await getSearchBooks(keyword, 1);
     searchword.current = keyword;
-    handleBookitems(total, bookitems);
-  };
 
-  // 새로운 검색 결과를 반영
-  const handleBookitems = (total: number, bookitems: bookInfo[]) => {
-    if (!total) {
-      setBottomButtonStatus(() => "nobooks");
-      return;
-    }
-
-    searchPage.current += 1;
-    setBookitems(bookitems);
-    setBottomButtonStatus(() => "more");
+    if (!total) return;
+    setBooks(books);
+    searchPage.current = 2;
   };
 
   // 더보기 버튼을 클릭했을 때의 동작
-  const onMoreButtonClick = () => {
-    handleNextBookitems();
-  };
+  const onMoreButtonClick = async () => {
+    const { total, books: nextPageBooks } = await getSearchBooks(
+      searchword.current,
+      searchPage.current,
+    );
+    const nextBooks = [...books, ...nextPageBooks];
+    setBooks(() => nextBooks);
 
-  // 다음 검색 결과를 반영
-  const handleNextBookitems = async () => {
-    if (!searchword.current) return;
-
-    const res = await getBookitems(searchword.current, searchPage.current);
-    const nextBookitems = [...bookitems, ...res.bookitems];
-    setBookitems(() => nextBookitems);
-
-    isLastPage(res.total, searchPage.current)
+    isLastPage(total, searchPage.current)
       ? setBottomButtonStatus(() => "end")
       : (searchPage.current += 1);
   };
@@ -64,8 +46,6 @@ export default function CreateNewBook() {
   const isLastPage = (total: number, current: number) => {
     return total <= current * SEARCH_BOOKITEMS_OFFSET;
   };
-
-  const craeteModal = useModalStore((state) => state.createModal);
 
   return (
     <main>
@@ -79,13 +59,11 @@ export default function CreateNewBook() {
         </Link>
       </div>
       <section className=" my-4 flex flex-col items-center gap-2">
-        {bookitems.map((item) => (
+        {books.map((book) => (
           <BookInfoCard
-            key={item.isbn}
-            bookinfo={item}
-            onClick={() =>
-              craeteModal(<CraeteBookModalContent bookinfo={item} />)
-            }
+            key={book.id}
+            bookInfo={book.bookInfo}
+            onClick={() => craeteModal(<CraeteBookModalContent book={book} />)}
           />
         ))}
         {bottomButtonStatus === "more" && (

@@ -1,19 +1,14 @@
 import { useRouter } from "next/navigation";
-import { useModalStore } from "@/src/stores";
+import { postBook } from "@/src/api";
 import { BookInfoCard, Button } from "@/src/components";
-import { postBookInfo } from "@/src/api";
-import type { bookInfo } from "@/src/types";
+import { useModalStore } from "@/src/stores";
 
-export default function CreateBookModalContent({
-  bookinfo,
-}: {
-  bookinfo: bookInfo;
-}) {
+export default function CreateBookModalContent({ book }: { book: book }) {
   const router = useRouter();
   const remoteModal = useModalStore((state) => state.remoteModal);
 
   const onSubmit = () => {
-    postBookInfo(bookinfo);
+    postBook(book);
     remoteModal();
     router.push("/write");
   };
@@ -21,7 +16,7 @@ export default function CreateBookModalContent({
   return (
     <section className="flex flex-col items-center gap-6">
       <h1 className="text-xl font-bold">이 책을 등록할까요?</h1>
-      <BookInfoCard type="large" bookinfo={bookinfo} />
+      <BookInfoCard type="large" bookInfo={book.bookInfo} />
       <div className="flex w-full flex-col items-center gap-2">
         <Button onClick={onSubmit}>네, 이 책을 등록할게요</Button>
         <button className="text-neutral-300" onClick={remoteModal}>
