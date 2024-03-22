@@ -1,9 +1,12 @@
 "use client";
 
-import type { BookSearchbar } from "@/src/types";
 import { useState } from "react";
 
-export default function BookSearchbar({ handleSubmit }: BookSearchbar) {
+export default function BookSearchbar({
+  handleSubmit,
+}: {
+  handleSubmit: (keyword: string) => void;
+}) {
   const [keyword, setKeyword] = useState("");
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;

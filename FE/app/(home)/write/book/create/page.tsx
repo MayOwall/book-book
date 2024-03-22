@@ -16,7 +16,7 @@ export default function CreateNewBook() {
   const searchword = useRef("");
   const [books, setBooks] = useState<book[]>([]);
   const [bottomButtonStatus, setBottomButtonStatus] = useState("nonDisplay");
-  const craeteModal = useModalStore((state: any) => state.createModal);
+  const craeteModal = useModalStore((state) => state.createModal);
 
   // 검색어가 제출되었을 때의 동작
   const onSearchbarSubmit = async (keyword: string) => {

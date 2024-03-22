@@ -5,7 +5,7 @@ import { useModalStore } from "@/src/stores";
 
 export default function CreateBookModalContent({ book }: { book: book }) {
   const router = useRouter();
-  const remoteModal = useModalStore((state: any) => state.remoteModal);
+  const remoteModal = useModalStore((state) => state.remoteModal);
 
   const onSubmit = () => {
     postBook(book);

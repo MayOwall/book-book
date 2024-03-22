@@ -1,5 +1,4 @@
 import Image from "next/image";
-import type { Icon } from "@/src/types";
 
 export default function Icon({
   type,
