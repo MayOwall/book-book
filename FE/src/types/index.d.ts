@@ -5,7 +5,7 @@ interface book {
   userId: string;
   bookInfo: bookInfo;
   isFinished: boolean;
-  finishedDate: Date;
+  finishedDate: Date | null;
 }
 
 interface bookInfo {

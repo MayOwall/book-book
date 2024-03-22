@@ -1,12 +1,20 @@
 import db from "@/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  Timestamp,
+} from "firebase/firestore";
 import { NextRequest } from "next/server";
 const TEST_USER_ID = process.env.FIREBASE_TEST_USER_ID!;
 
 // ✅
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
-  const bookId = params.get("id")!;
+  const year = Number(params.get("year")!);
+  const month = Number(params.get("month")!);
+  const date = Number(params.get("date")!);
 
   const collectionRef = collection(
     db,
@@ -14,7 +22,15 @@ export async function GET(req: NextRequest) {
     TEST_USER_ID,
     "reading-records",
   );
-  const q = query(collectionRef, where("bookId", "==", bookId));
+
+  const start = Timestamp.fromDate(new Date(year, month, date));
+  const end = Timestamp.fromDate(new Date(year, month, date + 1));
+
+  const q = query(
+    collectionRef,
+    where("date", ">=", start),
+    where("date", "<", end),
+  );
   const querySnapshots = await getDocs(q);
   const data: readingRecord[] = [];
   querySnapshots.forEach((snapshot) => {

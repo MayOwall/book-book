@@ -4,13 +4,14 @@ import {
   postBook,
   getReadingBooks,
   getFinishedBooks,
+  putBook,
 } from "./books";
 import {
   getBookReadingRecords,
   postReadingRecord,
-  getMonthRecords,
-  getAllBookRecords,
-  getIsTodayBookRecordExist,
+  getMonthReadingRecords,
+  getCalendar,
+  getDateReadingRecords,
 } from "./bookRecords";
 export {
   getSearchBooks,
@@ -20,12 +21,11 @@ export {
   getFinishedBooks,
   getBookReadingRecords,
   postReadingRecord,
-  getMonthRecords,
-  getAllBookRecords,
-  getIsTodayBookRecordExist,
+  getMonthReadingRecords,
+  getCalendar,
+  putBook,
+  getDateReadingRecords,
 };
-
-const LOCAL_BOOK_INFOS_KEY = "book-infos";
 
 // export const putBookInfo = (
 //   isbn: string,

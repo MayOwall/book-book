@@ -1,17 +1,20 @@
 import db from "@/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import type { bookInfo } from "@/src/types";
 
 const TEST_USER_ID = process.env.FIREBASE_TEST_USER_ID!;
 
+// ✅
 export async function GET() {
   const q = query(
     collection(db, "users", TEST_USER_ID, "books"),
-    where("finishedDate", "!=", ""),
+    where("isFinished", "==", true),
   );
   const querySnapshot = await getDocs(q);
-  const data: bookInfo[] = [];
-  querySnapshot.forEach((doc) => data.push(doc.data() as bookInfo));
+  const data: book[] = [];
+  querySnapshot.forEach((doc) => {
+    const book = { ...doc.data(), id: doc.id } as book;
+    data.push(book);
+  });
 
   return Response.json({
     status: "success",

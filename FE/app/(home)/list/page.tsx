@@ -1,33 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAllBookRecords } from "@/src/api";
-import { BookRecordsByDate } from "@/src/components";
-import type { bookRecord } from "@/src/types";
+import { getMonthReadingRecords } from "@/src/api";
+import { DailyReadingRecords } from "@/src/components";
 
 export default function ListPage() {
-  const [bookRecords, setBookRecords] = useState<bookRecord[]>([]);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState(new Date().getMonth());
+  const [readingRecords, setReadingRecords] = useState<readingRecord[]>([]);
 
   useEffect(() => {
-    const bookRecords = getAllBookRecords();
-    setBookRecords(() => bookRecords);
+    (async function () {
+      const bookRecords = await getMonthReadingRecords(year, month);
+      setReadingRecords(() => bookRecords);
+    })();
   }, []);
 
   return (
     <main className="flex w-full flex-col gap-2">
       <h2 className="w-full px-4 font-bold text-neutral-300">독서 리스트</h2>
       <section className="flex w-full flex-col items-end rounded-2xl bg-white p-4">
-        <YearMonthChangeButton />
-        <BookRecordsByDate bookRecords={bookRecords} />
+        <YearMonthChangeButton year={year} month={month} />
+        <DailyReadingRecords readingRecords={readingRecords} />
       </section>
     </main>
   );
 }
 
-function YearMonthChangeButton() {
+function YearMonthChangeButton({ year, month }: { [key: string]: number }) {
   return (
     <button className="rounded border border-neutral-100 p-1 px-2 text-sm text-neutral-500">
-      2024 2월
+      {year} {month + 1}월
     </button>
   );
 }

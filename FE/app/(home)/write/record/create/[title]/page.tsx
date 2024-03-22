@@ -50,7 +50,7 @@ export default function CreateRecord() {
     }
 
     router.push(
-      `/write/record/create/confirm?title=${bookInfo.title}&id=${id}&startPage=${startPage}&endPage=${endPage}`,
+      `/write/record/create/confirm?title=${bookInfo.title}&bookId=${id}&startPage=${startPage}&endPage=${endPage}`,
     );
   };
 

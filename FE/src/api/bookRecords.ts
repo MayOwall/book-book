@@ -1,5 +1,3 @@
-import { isSameDate } from "../utils";
-
 // ✅ 한 책의 전체 독서 기록을 가져오는 API
 export async function getBookReadingRecords(
   id: string,
@@ -24,89 +22,97 @@ export async function getBookReadingRecords(
   }
 }
 
-// ✅ 하나의 월의 전체 독서 기록을 가져오는 API
-export async function getMonthRecords(year: number, month: number) {
-  try {
-    const data = await getMonthRecordsFromDB();
-    return data.map((v: any) => {
-      return {
-        ...v,
-        date: new Date(v.date),
-      };
-    });
-  } catch (e) {
-    createError(e, "getMonthRecords");
-    return [];
-  }
-
-  async function getMonthRecordsFromDB() {
-    const res = await fetch(`/api/month-records?year=${year}&month=${month}`);
-    const { status, data } = await res.json();
-    if (status !== "success") throw new Error();
-    return data;
-  }
-}
-
-// TODO: 하나의 날짜의 전체 독서 기록을 가져오는 API
-
 // ✅ 독서 기록을 생성하는 API
 export async function postReadingRecord(
-  id: string,
+  bookId: string,
+  title: string,
   startPage: number,
   endPage: number,
 ): Promise<void> {
   try {
-    const body = createBody();
-    await postReadingRecordToDB(body);
+    await postReadingRecordToDB();
   } catch (e) {
     createError(e, "postBookRecord");
   }
 
-  function createBody() {
-    return { startPage, endPage };
-  }
-  async function postReadingRecordToDB(readingRecord: unknown) {
+  async function postReadingRecordToDB() {
     const options = {
       method: "POST",
-      body: JSON.stringify(readingRecord),
+      body: JSON.stringify({ bookId, title, startPage, endPage }),
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
     };
 
-    const res = await fetch(`/api/reading-records?id=${id}`, options);
+    const res = await fetch(`/api/reading-records`, options);
     const { status } = await res.json();
     if (status !== "success") throw new Error();
   }
 }
 
-// TODO: 전체 독서 기록을 가져오는 API
-export async function getAllBookRecords() {
+// ✅ 월 독서 기록을 가져오는 API
+export async function getMonthReadingRecords(year: number, month: number) {
   try {
-    return (await getAllBookRecordsFromDB()) as bookRecord[];
+    return await getMonthReadingRecordsFromDB();
   } catch (e) {
-    createError(e, "getMonthRecords");
+    createError(e, "getMonthReadingRecords");
     return [];
   }
 
-  async function getAllBookRecordsFromDB() {
-    const res = await fetch("/api/all-records");
+  async function getMonthReadingRecordsFromDB() {
+    const res = await fetch(
+      `/api/month-reading-records?year=${year}&month=${month}`,
+    );
     const { status, data } = await res.json();
     if (status !== "success") throw new Error();
     return data.map((v: any) => {
-      return {
-        ...v,
-        date: new Date(v.date),
-      };
-    });
+      return { ...v, date: new Date(v.date) };
+    }) as readingRecord[];
   }
 }
 
-export async function getIsTodayBookRecordExist() {
-  const data = await getAllBookRecords();
-  const date = data[data.length - 1].date;
+// ✅ 캘린더 정보를 가져오는 API
+export async function getCalendar(year: number, month: number) {
+  try {
+    return await getCalendarFromDB();
+  } catch (e) {
+    createError(e, "getCalendar");
+    return [];
+  }
 
-  return isSameDate(date, new Date());
+  async function getCalendarFromDB() {
+    const res = await fetch(`/api/calendar?year=${year}&month=${month}`);
+    const { status, data } = await res.json();
+    if (status !== "success") throw new Error();
+    return data.map((v: any) => {
+      return { ...v, date: new Date(v.date) };
+    }) as { date: Date; readingRecords: readingRecord[] }[];
+  }
+}
+
+// ✅ 특정 날짜의 독서 기록을 가져오는 API
+export async function getDateReadingRecords(
+  year: number,
+  month: number,
+  date: number,
+) {
+  try {
+    return await getDateReadingRecordsFromDB();
+  } catch (e) {
+    createError(e, "getDateReadingRecords");
+    return [];
+  }
+
+  async function getDateReadingRecordsFromDB() {
+    const res = await fetch(
+      `/api/date-reading-records?year=${year}&month=${month}&date=${date}`,
+    );
+    const { status, data } = await res.json();
+    if (status !== "success") throw new Error();
+    return data.map((v: any) => {
+      return { ...v, date: new Date(v.date) };
+    }) as readingRecord[];
+  }
 }
 
 function createError(e: unknown, place: string) {

@@ -1,4 +1,4 @@
-// 검색어를 바탕으로 네이버의 책 검색 결과를 가져오는 API
+// ✅ 검색어를 바탕으로 네이버의 책 검색 결과를 가져오는 API
 export async function getSearchBooks(keyword: string, page: number) {
   try {
     return await getSearchBooksFromNaverAPI();
@@ -15,8 +15,8 @@ export async function getSearchBooks(keyword: string, page: number) {
   }
 }
 
-// 하나의 책 정보를 가져오는 API
-export async function getBook(id: string): Promise<bookInfo | null> {
+// ✅ 하나의 책 정보를 가져오는 API
+export async function getBook(id: string): Promise<book | null> {
   try {
     return await getBookfromDB();
   } catch (e) {
@@ -32,10 +32,28 @@ export async function getBook(id: string): Promise<bookInfo | null> {
   }
 }
 
-// 읽고 있는 책 정보를 가져오는 API
+// ✅ 유저의 모든 책을 가져오는 api
+export async function getBooks() {
+  try {
+    return await getBooksfromDB();
+  } catch (e) {
+    createError(e, "getBook");
+    return null;
+  }
+
+  async function getBooksfromDB() {
+    const res = await fetch(`/api/books`);
+    const { status, data } = await res.json();
+    if (status !== "success") throw new Error();
+    return data;
+  }
+}
+
+// ✅ 읽고 있는 책 정보를 가져오는 API
 export async function getReadingBooks() {
   try {
-    return await getReadingBooksFromDB();
+    const readingBooks = await getReadingBooksFromDB();
+    return readingBooks;
   } catch (e) {
     createError(e, "getReadingBooks");
     return [];
@@ -49,12 +67,12 @@ export async function getReadingBooks() {
   }
 }
 
-// 다 읽은 책 정보를 가져오는 API
+// ✅ 다 읽은 책 정보를 가져오는 API
 export async function getFinishedBooks() {
   try {
     return await getFinishedBooksFromDB();
   } catch (e) {
-    createError(e, "getReadingBooks");
+    createError(e, "getFinishedBooks");
     return [];
   }
 
@@ -62,12 +80,12 @@ export async function getFinishedBooks() {
     const res = await fetch("/api/finished-books");
     const { status, data } = await res.json();
     if (status !== "success") throw new Error();
-    return data as bookInfo[];
+    return data as book[];
   }
 }
 
-// 새 책을 생성하는 API
-export async function postBook(book: book): Promise<void> {
+// ✅ 새 책을 생성하는 API
+export async function postBook(book: book) {
   try {
     await checkBookExistInDB();
     await postNewBookToDB();
@@ -76,7 +94,9 @@ export async function postBook(book: book): Promise<void> {
   }
 
   async function checkBookExistInDB() {
-    const isBookExist = await getBook(book.id);
+    const isBookExist = (await getBooks()).find(
+      (v: book) => v.bookInfo.isbn === book.bookInfo.isbn,
+    );
     if (isBookExist) {
       throw new Error("❌ Book is Alreay Exist");
     }
@@ -95,21 +115,27 @@ export async function postBook(book: book): Promise<void> {
   }
 }
 
-// TODO: 책 정보를 업데이트하는 API
-
-// TODO: 다 읽은 책 처리하는 API
-export async function putFinishedDate(isbn: string, finishedDate: string) {
+// ✅ 책 정보를 업데이트하는 API
+export async function putBook(id: string, data: { [key: string]: unknown }) {
   try {
-    await fetch("/api/book/finished-date", {
-      method: "PUT",
-      body: JSON.stringify({ isbn, finishedDate }),
-    });
+    await putBookToDB();
   } catch (e) {
-    createError(e, "putFinishedDate");
+    createError(e, "pubBook");
+  }
+  async function putBookToDB() {
+    const options = {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    };
+    const res = await fetch(`/api/book?id=${id}`, options);
+
+    const { status } = await res.json();
+    if (status !== "success") throw new Error();
   }
 }
-
-// TODO: 다 읽은 책을 다시 읽도록 처리하는 API
 
 function createError(e: unknown, place: string) {
   console.log(`❌ Error from ${place}`);

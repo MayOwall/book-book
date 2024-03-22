@@ -8,6 +8,8 @@ const headers = {
   "X-Naver-Client-Secret": naverClientSecret,
 };
 
+const TEST_USER_ID = process.env.FIREBASE_TEST_USER_ID!;
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const keyword = searchParams.get("keyword");
@@ -23,6 +25,7 @@ export async function GET(request: NextRequest) {
   const books = items.map(({ title, image, author, publisher, isbn }: any) => {
     const book: book = {
       id: isbn,
+      userId: TEST_USER_ID,
       bookInfo: {
         isbn,
         title,
@@ -31,6 +34,7 @@ export async function GET(request: NextRequest) {
         imageURL: image,
       },
       isFinished: false,
+      finishedDate: null,
     };
     return book;
   });

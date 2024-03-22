@@ -3,16 +3,15 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button, BookInfoCard } from "@/src/components";
-import { putFinishedBookInfo } from "@/src/api";
-import { bookInfo } from "@/src/types";
+import { putBook } from "@/src/api";
 
 export default function CreateRecord() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const bookInfo: bookInfo = JSON.parse(searchParams.get("bookInfo")!);
+  const book: book = JSON.parse(searchParams.get("book")!);
 
   const onSubmit = () => {
-    putFinishedBookInfo(bookInfo.isbn);
+    putBook(book.id, { isFinished: true });
     router.push("/write");
   };
 
@@ -24,7 +23,7 @@ export default function CreateRecord() {
         </h1>
         <p className="text-neutral-300">다 읽은 책은 책 보관소에 보관돼요.</p>
       </div>
-      <BookInfoCard bookinfo={bookInfo} type="large" />
+      <BookInfoCard bookInfo={book.bookInfo} type="large" />
       <div className="absolute bottom-4 flex w-full flex-col justify-center gap-4">
         <Button onClick={onSubmit}>네, 다 읽은 책으로 저장할게요</Button>
         <Link href="/write" className="w-full text-center">

@@ -9,13 +9,13 @@ export default function BookmitCreate() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const bookId = searchParams.get("bookId")!;
   const title = searchParams.get("title")!;
-  const id = searchParams.get("id")!;
   const startPage = Number(searchParams.get("startPage")!);
   const endPage = Number(searchParams.get("endPage")!);
 
   const onSubmit = async () => {
-    await postReadingRecord(id, startPage, endPage);
+    await postReadingRecord(bookId, title, startPage, endPage);
     router.push("/calendar");
   };
 

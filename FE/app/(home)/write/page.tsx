@@ -73,7 +73,7 @@ export default function Write() {
             href={{
               pathname: "/finish-book",
               query: {
-                bookInfo: JSON.stringify(selectedBook),
+                book: JSON.stringify(selectedBook),
               },
             }}
           >

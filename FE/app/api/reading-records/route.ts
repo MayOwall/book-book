@@ -3,26 +3,17 @@ import { Timestamp, addDoc, collection } from "firebase/firestore";
 import db from "@/firebase";
 const TEST_USER_ID = process.env.FIREBASE_TEST_USER_ID!;
 
+// ✅
 export async function POST(req: NextRequest) {
-  const params = req.nextUrl.searchParams;
-  const id = params.get("id")!;
-
-  let body = await req.json();
+  const body = await req.json();
   const date = Timestamp.now();
-  body = {
+  const newReadingRecord = {
     ...body,
-    date: date,
+    date,
   };
 
-  const ref = collection(
-    db,
-    "users",
-    TEST_USER_ID,
-    "books",
-    id,
-    "reading-records",
-  );
-  await addDoc(ref, body);
+  const ref = collection(db, "users", TEST_USER_ID, "reading-records");
+  await addDoc(ref, newReadingRecord);
 
   return Response.json({ status: "success" });
 }

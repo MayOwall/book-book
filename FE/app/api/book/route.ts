@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, addDoc, collection, updateDoc } from "firebase/firestore";
 
 const TEST_USER_ID = process.env.FIREBASE_TEST_USER_ID!;
 
+// ✅
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const id = searchParams.get("id")!;
@@ -18,13 +19,24 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ status: "success", data });
 }
 
+// ✅
 export async function POST(req: NextRequest) {
-  const { id, isFinished, bookInfo }: book = await req.json();
-  const nextBody = {
-    id,
+  const { isFinished, bookInfo }: book = await req.json();
+  const newBook = {
     bookInfo,
     isFinished,
+    finishedDate: null,
   };
-  await setDoc(doc(db, "users", TEST_USER_ID, "books", id), nextBody);
+  await addDoc(collection(db, "users", TEST_USER_ID, "books"), newBook);
+  return NextResponse.json({ status: "success" });
+}
+
+// ✅
+export async function PUT(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams;
+  const id = searchParams.get("id")!;
+  const body = await req.json();
+  const docRef = doc(db, "users", TEST_USER_ID, "books", id);
+  await updateDoc(docRef, body);
   return NextResponse.json({ status: "success" });
 }
