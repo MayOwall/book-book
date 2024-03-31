@@ -1,6 +1,6 @@
 import db from "@/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-
+export const dynamic = "force-dynamic";
 const TEST_USER_ID = process.env.FIREBASE_TEST_USER_ID!;
 
 // ✅
@@ -19,6 +19,8 @@ export async function GET() {
     } as book;
     data.push(book);
   });
+
+  console.log("✅", data);
 
   return Response.json({
     status: "success",
