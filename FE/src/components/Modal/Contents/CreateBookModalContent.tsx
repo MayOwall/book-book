@@ -2,14 +2,17 @@ import { useRouter } from "next/navigation";
 import { postBook } from "@/src/api";
 import { BookInfoCard, Button } from "@/src/components";
 import { useModalStore } from "@/src/stores";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CreateBookModalContent({ book }: { book: book }) {
   const router = useRouter();
   const remoteModal = useModalStore((state) => state.remoteModal);
+  const queryClient = useQueryClient();
 
-  const onSubmit = () => {
-    postBook(book);
+  const onSubmit = async () => {
+    await postBook(book);
     remoteModal();
+    queryClient.invalidateQueries({ queryKey: ["readingbooks"] });
     router.push("/write");
   };
 

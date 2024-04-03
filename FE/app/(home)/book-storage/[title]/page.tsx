@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DailyReadingRecords, BookInfoCard, Button } from "@/src/components";
 import { getBook, getBookReadingRecords, putBook } from "@/src/api";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function BookStorageDetail() {
   const searchParams = useSearchParams();
@@ -13,9 +14,11 @@ export default function BookStorageDetail() {
   const [bookReadingRecords, setBookReadingRecords] = useState<readingRecord[]>(
     [],
   );
+  const queryClient = useQueryClient();
 
   const onReReadButtonClick = () => {
     putBook(id, { isFinished: false });
+    queryClient.invalidateQueries({ queryKey: ["readingbooks"] });
     router.push("/write");
   };
 

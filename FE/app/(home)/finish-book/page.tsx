@@ -4,14 +4,17 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button, BookInfoCard } from "@/src/components";
 import { putBook } from "@/src/api";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CreateRecord() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const book: book = JSON.parse(searchParams.get("book")!);
+  const queryClient = useQueryClient();
 
   const onSubmit = () => {
     putBook(book.id, { isFinished: true });
+    queryClient.invalidateQueries({ queryKey: ["readingbooks"] });
     router.push("/write");
   };
 
