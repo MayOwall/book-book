@@ -20,8 +20,6 @@ export async function GET() {
     data.push(book);
   });
 
-  console.log("✅", data);
-
   return Response.json({
     status: "success",
     data,
