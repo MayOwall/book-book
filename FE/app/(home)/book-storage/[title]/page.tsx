@@ -18,7 +18,12 @@ export default function BookStorageDetail() {
 
   const onReReadButtonClick = () => {
     putBook(id, { isFinished: false });
-    queryClient.invalidateQueries({ queryKey: ["readingbooks"] });
+    queryClient.invalidateQueries({
+      queryKey: ["readingbooks"],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["finishedBooks"],
+    });
     router.push("/write");
   };
 

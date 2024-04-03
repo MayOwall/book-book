@@ -14,7 +14,12 @@ export default function CreateRecord() {
 
   const onSubmit = () => {
     putBook(book.id, { isFinished: true });
-    queryClient.invalidateQueries({ queryKey: ["readingbooks"] });
+    queryClient.invalidateQueries({
+      queryKey: ["readingbooks"],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["finishedBooks"],
+    });
     router.push("/write");
   };
 
