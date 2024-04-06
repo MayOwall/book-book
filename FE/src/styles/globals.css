@@ -1,3 +1,12 @@
+@import "./components/atoms.css";
+@import "./status.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * {
+    transition: 0.1s ease-in-out all;
+  }
+}

@@ -1,0 +1,49 @@
+@layer components {
+  /* primary */
+  .status-primary-fill {
+    @apply bg-[theme(colors.primary.default)] text-white hover:bg-[theme(colors.primary.hover)] active:bg-[theme(colors.primary.active)];
+  }
+  .status-primary-line {
+    @apply text-[theme(colors.primary.default)] hover:text-[theme(colors.primary.hover)] active:text-[theme(colors.primary.active)];
+  }
+
+  /* success */
+  .status-success-fill {
+    @apply bg-[theme(colors.success.default)] text-white hover:bg-[theme(colors.success.hover)] active:bg-[theme(colors.success.active)];
+  }
+  .status-success-line {
+    @apply text-[theme(colors.success.default)] hover:text-[theme(colors.success.hover)] active:text-[theme(colors.success.active)];
+  }
+
+  /* primary */
+  .status-warning-fill {
+    @apply bg-[theme(colors.warning.default)] text-white hover:bg-[theme(colors.warning.hover)]  active:bg-[theme(colors.warning.active)];
+  }
+  .status-warning-line {
+    @apply text-[theme(colors.warning.default)] hover:text-[theme(colors.warning.hover)] active:text-[theme(colors.warning.active)];
+  }
+
+  /* danger */
+  .status-danger-fill {
+    @apply bg-[theme(colors.danger.default)] text-white hover:bg-[theme(colors.danger.hover)]  active:bg-[theme(colors.danger.active)];
+  }
+  .status-danger-line {
+    @apply text-[theme(colors.danger.default)] hover:text-[theme(colors.danger.hover)] active:text-[theme(colors.danger.active)];
+  }
+
+  /* info */
+  .status-info-fill {
+    @apply bg-[theme(colors.info.default)] text-white hover:bg-[theme(colors.info.hover)]  active:bg-[theme(colors.info.active)];
+  }
+  .status-info-line {
+    @apply text-[theme(colors.info.default)] hover:text-[theme(colors.info.hover)] active:text-[theme(colors.info.active)];
+  }
+
+  /* disabled */
+  .status-disabled-fill {
+    @apply bg-[theme(colors.disabled.default)] text-white hover:bg-[theme(colors.disabled.hover)]  active:bg-[theme(colors.disabled.active)];
+  }
+  .status-disabled-line {
+    @apply text-[theme(colors.disabled.default)] hover:text-[theme(colors.disabled.hover)] active:text-[theme(colors.disabled.active)];
+  }
+}

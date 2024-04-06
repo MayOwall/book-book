@@ -1,0 +1,11 @@
+@layer components {
+  .button-large {
+    @apply h-12 w-full rounded-lg text-center text-base font-bold leading-[3rem] shadow;
+  }
+  .button-small {
+    @apply h-10 rounded-lg px-4 text-center text-base font-bold leading-10 shadow;
+  }
+  .button-tiny {
+    @apply text-base font-bold;
+  }
+}
