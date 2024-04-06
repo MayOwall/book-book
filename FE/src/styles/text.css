@@ -1,0 +1,26 @@
+@layer components {
+  .text-xsmall-regular {
+    @apply text-xs font-normal;
+  }
+  .text-xsmall-bold {
+    @apply text-xs font-bold;
+  }
+  .text-small-regular {
+    @apply text-sm font-normal;
+  }
+  .text-small-bold {
+    @apply text-sm font-bold;
+  }
+  .text-medium-regular {
+    @apply text-base font-normal;
+  }
+  .text-medium-bold {
+    @apply text-base font-bold;
+  }
+  .text-large-regular {
+    @apply text-xl font-normal;
+  }
+  .text-large-bold {
+    @apply text-xl font-bold;
+  }
+}
