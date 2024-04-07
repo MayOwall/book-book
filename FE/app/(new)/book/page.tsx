@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useQueries } from "@tanstack/react-query";
 import BookItem from "@/src/components/atoms/BookItem";
 import Loading from "@/src/components/molecules/Loading";
+import IconButton from "@/src/components/atoms/IconButton";
 import { getBooks } from "@/src/api";
 
 export default function BookPage() {
@@ -72,7 +73,7 @@ function Nav({
   setStatus: (v: bookStatus_) => void;
 }) {
   return (
-    <nav>
+    <nav className="flex w-full justify-between">
       <ul className="text-small-bold flex gap-6">
         <Li
           type="reading"
@@ -82,6 +83,7 @@ function Nav({
         <Li type="toRead" status={status} onClick={() => setStatus("toRead")} />
         <Li type="read" status={status} onClick={() => setStatus("read")} />
       </ul>
+      <IconButton type="plus" width={24} />
     </nav>
   );
 }

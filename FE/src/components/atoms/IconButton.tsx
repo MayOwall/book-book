@@ -1,35 +1,64 @@
 import ArrowLeftIcon from "@/src/assets/icons/arrowleft-icon.svg";
 import CheckIcon from "@/src/assets/icons/check-icon.svg";
+import PlusIcon from "@/src/assets/icons/plus-icon.svg";
 
 interface IconButton {
-  type?: "back" | "success";
+  type?: "back" | "success" | "plus";
   onClick?: () => void;
+  width?: number;
 }
 
-export default function IconButton({ type = "back", onClick }: IconButton) {
+export default function IconButton({
+  type = "back",
+  onClick,
+  width = 24,
+}: IconButton) {
   switch (type) {
     case "success":
-      return <Success onClick={onClick} />;
+      return <Success width={width} onClick={onClick} />;
+    case "plus":
+      return <Plus width={width} onClick={onClick} />;
     default:
-      return <Back onClick={onClick} />;
+      return <Back width={width} onClick={onClick} />;
   }
 }
 
-function Back({ onClick }: IconButton) {
+function Back({ width, onClick }: IconButton) {
   return (
-    <button className={`icon-button status-primary-line`} onClick={onClick}>
-      <ArrowLeftIcon stroke="#FCD34D" />
+    <button
+      className={`icon-button status-primary-line`}
+      style={{ width, height: width }}
+      onClick={onClick}
+    >
+      <ArrowLeftIcon
+        width={width! * 0.8}
+        height={width! * 0.8}
+        stroke="#FCD34D"
+      />
     </button>
   );
 }
 
-function Success({ onClick }: IconButton) {
+function Success({ width, onClick }: IconButton) {
   return (
     <button
-      className={`icon-button status-success-fill border-none`}
+      className={`icon-button status-success-fill`}
+      style={{ width, height: width }}
       onClick={onClick}
     >
-      <CheckIcon fill="#ffffff" />
+      <CheckIcon width={width! * 0.8} height={width! * 0.8} fill="#ffffff" />
+    </button>
+  );
+}
+
+function Plus({ width, onClick }: IconButton) {
+  return (
+    <button
+      className={`icon-button status-primary-fill`}
+      style={{ width, height: width }}
+      onClick={onClick}
+    >
+      <PlusIcon width={width! * 0.8} height={width! * 0.8} stroke="#ffffff" />
     </button>
   );
 }
