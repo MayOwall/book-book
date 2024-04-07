@@ -22,8 +22,9 @@ function Cover({ book }: BookItem) {
         src={book.cover}
         alt={book.title}
         width={96}
-        height={128}
+        height={132}
         className="shadow-lg"
+        style={{ objectFit: "cover", height: 132 }}
       />
       <div className="flex flex-col gap-1">
         <h3 className="text-small-bold truncate">{book.title}</h3>

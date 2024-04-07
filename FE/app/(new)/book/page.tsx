@@ -55,11 +55,29 @@ export default function BookPage() {
       <Nav status={status} setStatus={setStatus} />
       <section className="flex h-full w-full flex-wrap content-start  gap-4 rounded-lg bg-white px-4 py-6">
         {!!books &&
+          !!books.length &&
           books.map((book) => (
             <Link key={book.id} href="" tabIndex={0}>
               <BookItem type="cover" book={book} />
             </Link>
           ))}
+        {!!books && !books.length && (
+          <div className="text-small-regular flex h-full w-full flex-col items-center justify-center">
+            <div className="text-gray-300">
+              {status === "read"
+                ? "다 읽은 책"
+                : status === "reading"
+                  ? "읽고 있는 책"
+                  : "읽고 싶은 책"}
+              이 없어요.
+            </div>
+            <Link href={""}>
+              <div className="text-[theme(colors.primary.default)] underline">
+                새로운 책을 추가하러 가 볼까요?
+              </div>
+            </Link>
+          </div>
+        )}
       </section>
     </div>
   );
