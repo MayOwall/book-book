@@ -6,7 +6,7 @@
     @apply h-10 rounded-lg px-4 text-center text-base font-bold leading-10 shadow;
   }
   .button-tiny {
-    @apply text-base font-bold;
+    @apply border-none bg-transparent text-base font-normal;
   }
 
   .icon-button {
