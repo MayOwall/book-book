@@ -1,5 +1,18 @@
 declare module "@/src/types";
 
+type bookStatus_ = "toRead" | "reading" | "read";
+
+interface book_ {
+  id: string;
+  title: string;
+  author: string;
+  publisher: string;
+  cover: string;
+  status: bookStatus_;
+  startDate: string;
+  endDate: string;
+}
+
 interface book {
   id: string;
   userId: string;

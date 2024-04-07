@@ -3,16 +3,7 @@ import { getMindateString } from "@/src/utils";
 
 interface BookItem {
   type?: "cover" | "card" | "modal";
-  book: {
-    id: string;
-    title: string;
-    author: string;
-    publisher: string;
-    cover: string;
-    status: "toRead" | "reading" | "read";
-    startDate: Date;
-    endDate: Date;
-  };
+  book: book_;
 }
 
 export default function BookItem({ type = "cover", book }: BookItem) {

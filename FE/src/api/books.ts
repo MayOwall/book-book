@@ -33,16 +33,16 @@ export async function getBook(id: string): Promise<book | null> {
 }
 
 // ✅ 유저의 모든 책을 가져오는 api
-export async function getBooks() {
+export async function getBooks(s?: bookStatus_) {
   try {
     return await getBooksfromDB();
   } catch (e) {
-    createError(e, "getBook");
+    createError(e, "getBooks");
     return null;
   }
 
   async function getBooksfromDB() {
-    const res = await fetch(`/api/books`);
+    const res = await fetch(`/api/books${s ? `?status=${s}` : ""}`);
     const { status, data } = await res.json();
     if (status !== "success") throw new Error();
     return data;

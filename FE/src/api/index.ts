@@ -5,6 +5,7 @@ import {
   getReadingBooks,
   getFinishedBooks,
   putBook,
+  getBooks,
 } from "./books";
 import {
   getBookReadingRecords,
@@ -25,6 +26,7 @@ export {
   getCalendar,
   putBook,
   getDateReadingRecords,
+  getBooks,
 };
 
 // export const putBookInfo = (

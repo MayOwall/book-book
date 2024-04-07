@@ -1,3 +1,5 @@
+"use client";
+
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import * as Icon from "@/src/assets/icons";
@@ -6,7 +8,7 @@ export default function FNB() {
   const pathname = usePathname();
 
   return (
-    <div className="flex h-12 w-full items-center justify-evenly bg-white shadow-lg">
+    <div className="fixed bottom-0 left-1/2 flex h-12 w-full max-w-screen-sm -translate-x-1/2 items-center justify-evenly bg-white shadow-lg">
       <Item type="book" selected={pathname === "/book"} />
       <Item type="log" selected={pathname === "/log"} />
       <Item type="setting" selected={pathname === "/setting"} />
@@ -31,7 +33,7 @@ function Item({
         {type === "setting" && selected && <Icon.GearFill />}
         {type === "setting" && !selected && <Icon.GearLine />}
         <div
-          className={`text-small-regular text-${selected ? "[theme(colors.primary.default)]" : "gray-300"}`}
+          className={`text-small-regular ${selected ? "text-[theme(colors.primary.default)]" : "text-gray-300"}`}
         >
           {type === "book" && "도서 목록"}
           {type === "log" && "독서 기록"}

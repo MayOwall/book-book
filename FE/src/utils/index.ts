@@ -49,6 +49,7 @@ export const isSameDate = (a: Date, b: Date) => {
   return true;
 };
 
-export const getMindateString = (date: Date) => {
+export const getMindateString = (str: string) => {
+  const date = new Date(str);
   return `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getDate().toString().padStart(2, "0")}`;
 };
