@@ -60,7 +60,7 @@ export default function BookDetail() {
       {isSuccess && book && (
         <>
           <header className="flex w-full items-center justify-between">
-            <IconButton type="back" width={32} />
+            <IconButton type="back" width={32} onClick={() => router.back()} />
             <Button status="danger" size="tiny" onClick={() => setModal(true)}>
               이 책 삭제하기
             </Button>
@@ -168,22 +168,39 @@ function BookLogList({ bookId }: { bookId: string }) {
         </ul>
       </header>
       <div className="flex flex-col gap-2">
-        {status === "bookReadingLog" &&
-          isBookReadingLogsSuccess &&
-          bookReadingLogs.map((v: bookReadingLog_) => (
-            <BookReadingLogCard key={v.id} bookReadingLog={v} type="date" />
-          ))}
-        {status === "bookMemo" &&
-          isBookMemosSuccess &&
-          bookMemos.map((v: bookMemo_) => (
-            <BookMemoCard
-              key={v.id}
-              bookMemo={v}
-              type="default"
-              removable
-              onDelete={(id) => console.log("remove memo id : ", id)}
-            />
-          ))}
+        {status === "bookReadingLog" && isBookReadingLogsSuccess && (
+          <>
+            {bookReadingLogs.map((v: bookReadingLog_) => (
+              <BookReadingLogCard key={v.id} bookReadingLog={v} type="date" />
+            ))}
+            {!bookReadingLogs.length && (
+              <div className="text-small-regular text-center text-gray-300">
+                이 책의 독서 기록이 없어요. <br />
+                새로운 독서 기록을 작성해 보세요!
+              </div>
+            )}
+          </>
+        )}
+        {status === "bookMemo" && isBookMemosSuccess && (
+          <>
+            {bookMemos.map((v: bookMemo_) => (
+              <BookMemoCard
+                key={v.id}
+                bookMemo={v}
+                type="default"
+                removable
+                onDelete={(id) => console.log("remove memo id : ", id)}
+              />
+            ))}
+            {!bookMemos.length && (
+              <div className="text-small-regular text-center text-gray-300">
+                이 책의 메모가 없어요.
+                <br />
+                새로운 메모을 작성해 보세요!
+              </div>
+            )}
+          </>
+        )}
       </div>
     </section>
   );
