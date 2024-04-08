@@ -16,7 +16,7 @@ export async function getSearchBooks(keyword: string, page: number) {
 }
 
 // ✅ 하나의 책 정보를 가져오는 API
-export async function getBook(id: string): Promise<book | null> {
+export async function getBook(id: string): Promise<book_ | null> {
   try {
     return await getBookfromDB();
   } catch (e) {
@@ -134,6 +134,18 @@ export async function putBook(id: string, data: { [key: string]: unknown }) {
 
     const { status } = await res.json();
     if (status !== "success") throw new Error();
+  }
+}
+
+export async function deleteBook(id: string) {
+  try {
+    const res = await fetch(`/api/book?id=${id}`, {
+      method: "DELETE",
+    });
+    const { status } = await res.json();
+    if (status !== "success") throw new Error();
+  } catch (e) {
+    createError(e, "deleteBook");
   }
 }
 
