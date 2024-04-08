@@ -11,6 +11,8 @@ import { getMindateString } from "@/src/utils";
 import BookMemoCard from "@/src/components/molecules/BookMemoCard";
 import Loading from "@/src/components/molecules/Loading";
 import Modal from "@/src/components/molecules/Modal";
+import FloatingButton from "@/src/components/molecules/FloatingButton";
+
 import { useQuery } from "@tanstack/react-query";
 import {
   deleteBook,
@@ -65,6 +67,7 @@ export default function BookDetail() {
           </header>
           <BookInfo book={book} />
           <BookLogList bookId={book.id} />
+          <FloatingButton />
         </>
       )}
       {modal && <Modal {...modalProps} />}

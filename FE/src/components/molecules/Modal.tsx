@@ -15,7 +15,7 @@ export default function Modal(props: Modal) {
   const { type } = props;
 
   return (
-    <div className="fixed left-0 top-0 flex h-dvh w-dvw items-center justify-center bg-[#eeeeeebb]">
+    <div className="fixed left-0 top-0 z-50 flex h-dvh w-dvw items-center justify-center bg-[#ffffffbb]">
       {type === "success" && <Success {...props} />}
       {type === "danger" && <Danger {...props} />}
     </div>
