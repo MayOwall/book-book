@@ -11,6 +11,7 @@ import {
   query,
   writeBatch,
   getDocs,
+  Timestamp,
 } from "firebase/firestore";
 
 const TEST_USER_ID = process.env.FIREBASE_TEST_USER_ID!;
@@ -54,6 +55,12 @@ export async function PUT(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const id = searchParams.get("id")!;
   const body = await req.json();
+  if (body.startDate) {
+    body.startDate = Timestamp.fromDate(new Date(body.startDate));
+  }
+  if (body.endDate) {
+    body.endDate = Timestamp.fromDate(new Date(body.endDate));
+  }
   const docRef = doc(db, "users", TEST_USER_ID, "books", id);
   await updateDoc(docRef, body);
   return NextResponse.json({ status: "success" });

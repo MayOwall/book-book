@@ -4,6 +4,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import Button from "@/src/components/atoms/Button";
 import IconButton from "@/src/components/atoms/IconButton";
 import BookReadingLogCard from "@/src/components/molecules/BookLogCard";
@@ -12,13 +14,12 @@ import BookMemoCard from "@/src/components/molecules/BookMemoCard";
 import Loading from "@/src/components/molecules/Loading";
 import Modal from "@/src/components/molecules/Modal";
 import FloatingButton from "@/src/components/molecules/FloatingButton";
-
-import { useQuery } from "@tanstack/react-query";
 import {
   deleteBook,
   getBook,
   getBookMemos,
   getBookReadingLogs,
+  putBook,
 } from "@/src/api";
 
 export default function BookDetail() {
@@ -30,7 +31,11 @@ export default function BookDetail() {
   }
 
   const bookId = pathname![0];
-  const { isSuccess, data: book } = useQuery({
+  const {
+    isSuccess,
+    refetch,
+    data: book,
+  } = useQuery({
     queryKey: ["book", bookId],
     queryFn: () => getBook(bookId),
   });
@@ -42,6 +47,31 @@ export default function BookDetail() {
 
   const onCancelBtnClick = () => {
     setModal(false);
+  };
+
+  const handleBookStatus = async (status: "start" | "finish" | "again") => {
+    let body = {};
+    if (status === "start") {
+      body = {
+        startDate: new Date().toDateString(),
+        status: "reading",
+      };
+    }
+    if (status === "finish") {
+      body = {
+        status: "read",
+        endDate: new Date().toDateString(),
+      };
+    }
+    if (status === "again") {
+      body = {
+        status: "reading",
+        endDate: null,
+      };
+    }
+
+    await putBook(bookId, body);
+    await refetch();
   };
 
   const modalProps = Object.freeze({
@@ -65,7 +95,7 @@ export default function BookDetail() {
               이 책 삭제하기
             </Button>
           </header>
-          <BookInfo book={book} />
+          <BookInfo book={book} handleBookStatus={handleBookStatus} />
           <BookLogList bookId={book.id} />
           <FloatingButton />
         </>
@@ -75,7 +105,13 @@ export default function BookDetail() {
   );
 }
 
-function BookInfo({ book }: { book: book_ }) {
+function BookInfo({
+  book,
+  handleBookStatus,
+}: {
+  book: book_;
+  handleBookStatus: (v: "start" | "finish" | "again") => void;
+}) {
   return (
     <>
       <div className="relative h-48 w-36 flex-shrink-0 shadow">
@@ -94,13 +130,19 @@ function BookInfo({ book }: { book: book_ }) {
       </div>
       <div className="flex w-full flex-shrink-0 flex-col items-end gap-2">
         {book.status === "toRead" && (
-          <Button size="tiny">이 책을 읽기 시작할래요</Button>
+          <Button size="tiny" onClick={() => handleBookStatus("start")}>
+            이 책을 읽기 시작할래요
+          </Button>
         )}
         {book.status === "reading" && (
-          <Button size="tiny">이 책을 다 읽었어요</Button>
+          <Button size="tiny" onClick={() => handleBookStatus("finish")}>
+            이 책을 다 읽었어요
+          </Button>
         )}
         {book.status === "read" && (
-          <Button size="tiny">이 책을 다시 읽을래요</Button>
+          <Button size="tiny" onClick={() => handleBookStatus("again")}>
+            이 책을 다시 읽을래요
+          </Button>
         )}
         <div className="text-small-bold flex w-full flex-col gap-4 rounded-lg bg-white p-4 shadow">
           <div className="flex justify-between">
