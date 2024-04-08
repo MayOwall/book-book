@@ -13,6 +13,23 @@ interface book_ {
   endDate: string;
 }
 
+interface bookReadingLog_ {
+  id: string;
+  date: string;
+  bookId: string;
+  bookTitle: string;
+  startPage: number;
+  endPage: number;
+}
+
+interface bookMemo_ {
+  id: string;
+  date: string;
+  bookId: string;
+  bookTitle: string;
+  content: string;
+}
+
 interface book {
   id: string;
   userId: string;

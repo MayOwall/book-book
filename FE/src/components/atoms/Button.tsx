@@ -16,7 +16,9 @@ export default function Button({
 }: Button) {
   const sizeStyle = `button-${size}`;
   const statusStyle =
-    size === "tiny" ? `status-${status}-line` : `status-${status}-fill`;
+    size === "tiny"
+      ? `status-${status}-line bg-transparent`
+      : `status-${status}-fill`;
 
   return (
     <button
