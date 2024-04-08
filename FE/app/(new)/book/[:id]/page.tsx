@@ -1,33 +1,73 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Button from "@/src/components/atoms/Button";
 import IconButton from "@/src/components/atoms/IconButton";
+import BookReadingLogCard from "@/src/components/molecules/BookLogCard";
 import { getMindateString } from "@/src/utils";
-
-const bookInit = Object.freeze({
-  id: "1",
-  title: "UX 디자인의 모든 것",
-  author: "한상훈",
-  publisher: "치즈덕 주식회사",
-  cover: "https://image.yes24.com/goods/101334074/XL",
-  status: "toRead",
-  startDate: "2024.04.04",
-  endDate: "2024.04.14",
-});
+import BookMemoCard from "@/src/components/molecules/BookMemoCard";
+import Loading from "@/src/components/molecules/Loading";
+import Modal from "@/src/components/molecules/Modal";
+import { useQuery } from "@tanstack/react-query";
+import {
+  deleteBook,
+  getBook,
+  getBookMemos,
+  getBookReadingLogs,
+} from "@/src/api";
 
 export default function BookDetail() {
-  const [book, setBook] = useState<book_>(bookInit);
+  const [modal, setModal] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname().match(/[^\/]*1$/);
+  if (!pathname) {
+    router.push("/book");
+  }
+
+  const bookId = pathname![0];
+  const { isSuccess, data: book } = useQuery({
+    queryKey: ["book", bookId],
+    queryFn: () => getBook(bookId),
+  });
+
+  const onDeleteBtnClick = () => {
+    deleteBook(bookId);
+    router.push("/book");
+  };
+
+  const onCancelBtnClick = () => {
+    setModal(false);
+  };
+
+  const modalProps = Object.freeze({
+    type: "danger",
+    title: "정말 이 책를 삭제할까요?",
+    subTitle: "한번 삭제하면 되돌릴 수 없어요.",
+    onAction: onDeleteBtnClick,
+    onCancel: onCancelBtnClick,
+    actionContent: "네, 삭제할게요",
+    cancelContent: "삭제 취소",
+  });
+
   return (
-    <div className="flex h-svh w-full flex-col items-center gap-8 border px-4 py-6 pb-16">
-      <header className="flex w-full items-center justify-between">
-        <IconButton type="back" width={32} />
-        <Button status="danger" size="tiny">
-          이 책 삭제하기
-        </Button>
-      </header>
-      <BookInfo book={book} />
+    <div className="flex min-h-svh w-full flex-col items-center gap-8 px-4 py-6 pb-20">
+      {!isSuccess && <Loading />}
+      {isSuccess && book && (
+        <>
+          <header className="flex w-full items-center justify-between">
+            <IconButton type="back" width={32} />
+            <Button status="danger" size="tiny" onClick={() => setModal(true)}>
+              이 책 삭제하기
+            </Button>
+          </header>
+          <BookInfo book={book} />
+          <BookLogList bookId={book.id} />
+        </>
+      )}
+      {modal && <Modal {...modalProps} />}
     </div>
   );
 }
@@ -35,7 +75,7 @@ export default function BookDetail() {
 function BookInfo({ book }: { book: book_ }) {
   return (
     <>
-      <div className="relative h-48 w-36 shadow">
+      <div className="relative h-48 w-36 flex-shrink-0 shadow">
         <Image
           fill
           src={book.cover}
@@ -43,13 +83,13 @@ function BookInfo({ book }: { book: book_ }) {
           style={{ objectFit: "cover" }}
         />
       </div>
-      <div>
+      <div className="flex-shrink-0">
         <div className="text-large-bold mb-2">{book.title}</div>
         <div className="text-medium-regular text-gray-500">
           {book.author} | {book.publisher}
         </div>
       </div>
-      <div className="flex w-full flex-col items-end gap-2">
+      <div className="flex w-full flex-shrink-0 flex-col items-end gap-2">
         {book.status === "toRead" && (
           <Button size="tiny">이 책을 읽기 시작할래요</Button>
         )}
@@ -83,5 +123,65 @@ function BookInfo({ book }: { book: book_ }) {
         </div>
       </div>
     </>
+  );
+}
+
+function BookLogList({ bookId }: { bookId: string }) {
+  const [status, setStatus] = useState<"bookReadingLog" | "bookMemo">(
+    "bookReadingLog",
+  );
+
+  const { isSuccess: isBookReadingLogsSuccess, data: bookReadingLogs } =
+    useQuery({
+      queryKey: ["book-reading-logs", bookId],
+      queryFn: () => getBookReadingLogs({ bookId }),
+    });
+
+  const { isSuccess: isBookMemosSuccess, data: bookMemos } = useQuery({
+    queryKey: ["book-memos-logs", bookId],
+    queryFn: () => getBookMemos({ bookId }),
+  });
+
+  return (
+    <section className="w-full">
+      <header className="mb-4 w-full">
+        <ul className="text-medium-bold flex gap-6">
+          <li>
+            <button
+              className={`${status === "bookReadingLog" ? "text-[theme(colors.primary.default)]" : "text-gray-300"}`}
+              onClick={() => setStatus("bookReadingLog")}
+            >
+              이 책의 독서 기록
+            </button>
+          </li>
+          <li>
+            <button
+              className={`${status === "bookMemo" ? "text-[theme(colors.primary.default)]" : "text-gray-300"}`}
+              onClick={() => setStatus("bookMemo")}
+            >
+              이 책의 메모
+            </button>
+          </li>
+        </ul>
+      </header>
+      <div className="flex flex-col gap-2">
+        {status === "bookReadingLog" &&
+          isBookReadingLogsSuccess &&
+          bookReadingLogs.map((v: bookReadingLog_) => (
+            <BookReadingLogCard key={v.id} bookReadingLog={v} type="date" />
+          ))}
+        {status === "bookMemo" &&
+          isBookMemosSuccess &&
+          bookMemos.map((v: bookMemo_) => (
+            <BookMemoCard
+              key={v.id}
+              bookMemo={v}
+              type="default"
+              removable
+              onDelete={(id) => console.log("remove memo id : ", id)}
+            />
+          ))}
+      </div>
+    </section>
   );
 }
