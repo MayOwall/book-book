@@ -22,15 +22,10 @@ import {
   putBook,
 } from "@/src/api";
 
-export default function BookDetail() {
+export default function BookDetail({ params }: { params: { ":id": string } }) {
   const [modal, setModal] = useState(false);
   const router = useRouter();
-  const pathname = usePathname().match(/[^\/]*1$/);
-  if (!pathname) {
-    router.push("/book");
-  }
-
-  const bookId = pathname![0];
+  const bookId = params[":id"];
   const {
     isSuccess,
     refetch,

@@ -57,7 +57,7 @@ export default function BookPage() {
         {!!books &&
           !!books.length &&
           books.map((book) => (
-            <Link key={book.id} href="" tabIndex={0}>
+            <Link key={book.id} href={`/book/${book.id}`} tabIndex={0}>
               <BookItem type="cover" book={book} />
             </Link>
           ))}
