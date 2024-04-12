@@ -6,6 +6,7 @@ interface Button {
   size?: "tiny" | "small" | "large";
   status?: "primary" | "success" | "warning" | "danger" | "info" | "disabled";
   onClick?: () => void;
+  type?: "button" | "submit";
 }
 
 export default function Button({
@@ -13,6 +14,7 @@ export default function Button({
   status = "primary",
   children,
   onClick,
+  type = "button",
 }: Button) {
   const sizeStyle = `button-${size}`;
   const statusStyle =
@@ -25,6 +27,7 @@ export default function Button({
       className={`${sizeStyle} ${statusStyle}`}
       onClick={onClick}
       disabled={status === "disabled"}
+      type={type}
     >
       {children}
     </button>
